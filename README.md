@@ -147,6 +147,10 @@ python -m unittest discover -s tests -v
 python -m src.train --config configs/baseline.yaml --run-id E001-seed42-v1
 ```
 
+**Measured E001 baseline:** 77.77% local validation accuracy (829/1,066),
+selected at epoch 30. All validation predictions reproduced after checkpoint reload.
+See [the completed run note](experiments/notes/E001-seed42-v1.md) for details.
+
 The first run downloads the official ImageNet-1K ResNet-50 V2 weights. It extracts
 fixed features once, then trains a linear classifier for 30 epochs. The encoder
 stays frozen. See the [recipe decision](docs/DECISIONS.md#d009--e001-frozen-feature-training-recipe)
@@ -162,7 +166,8 @@ weights download is needed when reloading it for inference.
 
 Run IDs and output directories cannot be reused. For a new experiment, prepare
 `experiments/notes/YOUR_RUN_ID.md`, choose a new run ID, and record what changed.
-Use `--device cpu`, `--device mps`, or `--device cuda` to override automatic device
+For new runs, add `--owner "YOUR NAME"` to record who executed the run; this
+is separate from contribution credit in run notes. Use `--device cpu`, `--device mps`, or `--device cuda` to override automatic device
 selection. Changing hardware may cause numerical differences.
 
 To re-evaluate the saved baseline on its recorded validation set:
@@ -171,8 +176,18 @@ To re-evaluate the saved baseline on its recorded validation set:
 python -m src.evaluate --checkpoint outputs/E001-seed42-v1/best.pt --output-dir outputs/E001-seed42-v1-recheck
 ```
 
-The recheck directory must not already exist. Compare its `val_predictions.csv`
-with the original run's predictions. Do not treat re-evaluating the same checkpoint
+The example run and recheck already exist on Jason's machine. Use a new run ID
+and matching pre-run note to train another model, or a new output directory to
+re-evaluate. The recheck directory must not already exist. Compare its `val_predictions.csv`
+with the original run's predictions. To verify labels, probabilities, hashes,
+and unchanged encoder tensors automatically (requires the original downloaded
+ImageNet checkpoint in the local torch cache):
+
+```bash
+python scripts/verify_baseline.py --run-dir outputs/E001-seed42-v1 --recheck-dir outputs/E001-seed42-v1-recheck
+```
+
+Do not modify run artifacts to make a verification pass. Do not treat re-evaluating the same checkpoint
 on the same split as a new model-selection experiment.
 
 When ready to generate a competition CSV (this command does not upload it):

@@ -13,12 +13,26 @@ from torchvision.transforms import ToTensor
 
 from src.common import sha256
 from src.dataset import SceneDataset, load_training_records
-from src.train import extract_features
+from src.train import extract_features, append_result
 from src.models import SceneClassifier, WEIGHT_NAME
 from src.predict import main as predict_main
 
 
 class PipelineTests(unittest.TestCase):
+    def test_result_register_preserves_rows_and_rejects_duplicate_ids(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'experiments').mkdir()
+            path = root / 'experiments/results.csv'
+            path.write_bytes(b'run_id,status\n')
+            with patch('src.train.ROOT', root):
+                append_result({'run_id': 'one', 'status': 'completed'})
+                self.assertNotIn(b'\r', path.read_bytes())
+                before = path.read_bytes()
+                with self.assertRaisesRegex(ValueError, 'already recorded'):
+                    append_result({'run_id': 'one', 'status': 'completed'})
+                self.assertEqual(path.read_bytes(), before)
+
     def test_saved_model_prediction_preserves_sample_order_and_ignores_extra_labels(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

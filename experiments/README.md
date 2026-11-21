@@ -1,9 +1,9 @@
 # Experiment record
 
 Read [the plan](PLAN.md) and [decision log](../docs/DECISIONS.md) before adding
-runs. `results.csv` currently contains only column headers because there are no
-measured model results yet. Planned experiments belong in PLAN.md, not as invented
-scores in the results file.
+runs. `results.csv` indexes measured runs; compact metrics and curves live under
+`metrics/`. Planned experiments belong in PLAN.md, not as invented scores in the
+results file. See `notes/E001-seed42-v1.md` for the completed first baseline.
 
 ## Before a run
 

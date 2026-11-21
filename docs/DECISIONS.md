@@ -153,3 +153,21 @@ append a dated update when a choice changes.
 - Source: [official ResNet-50 weights and transforms](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet50.html).
 - Revisit after: baseline errors/curves identify optimization, context, or encoder
   limitations. Record measured outcomes in `experiments/notes/E001-seed42-v1.md`.
+
+## 2026-11-21 outcome update — D005, D006, D009 / E001-seed42-v1
+
+- Status: implemented and measured; supersedes initial proposed/planned statuses
+  for the frozen baseline and validation-artifact recording above.
+- Selected frozen ResNet-50 baseline reached 829/1,066 (77.7674%) local validation
+  accuracy at epoch 30 of the 30 predeclared epochs. Fitting accuracy was 99.7888%.
+- Reloaded full checkpoint reproduced all validation predictions on MPS; 318
+  encoder tensors remained identical to the official ImageNet source. Five
+  pipeline checks passed. See the run note and compact metrics for checksums.
+- Decision: retain this run as the E001 reference. Best epoch is at the training
+  boundary, so do not claim convergence. No change to split, training duration,
+  or preprocessing was made in response to intermediate results.
+- Interpretation: the fitting/validation gap motivates testing generalization
+  and input context; it does not establish which change will improve accuracy.
+  Confusion pairs are small-sample observations, not explanations by themselves.
+- Next evidence: validation-error review and separate fine-tuning/context
+  comparisons. No test predictions or Kaggle uploads were made for this run.

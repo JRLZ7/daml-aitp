@@ -1,7 +1,8 @@
 # Experiment plan
 
-We have validated data and a fixed split. **No model has been trained or scored
-yet.** All improvements below are hypotheses, not reported achievements.
+This plan was drafted before the first model run. E001 is now completed: see
+[its run note](notes/E001-seed42-v1.md) for measured results. All proposed
+improvements below remain hypotheses until separately tested.
 
 ## Where we can earn an advantage
 
@@ -30,7 +31,8 @@ AI can help generate code; the team must choose questions and assess evidence.
 
 ## Initial experiment queue
 
-Run IDs are reserved, not completed. Fix exact configs and checkpoint sources
+Experiment IDs describe the planned comparisons. E001 is completed; other
+entries remain planned. Fix exact configs and checkpoint sources
 before running. Keep the baseline, architecture, and preprocessing comparisons
 separate where possible.
 

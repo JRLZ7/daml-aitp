@@ -47,7 +47,7 @@ def append_result(row):
         if any(existing['run_id'] == row['run_id'] for existing in reader):
             raise ValueError('Run ID already recorded; use a new run ID')
     with path.open('a', newline='') as stream:
-        csv.DictWriter(stream, fieldnames=columns).writerow(row)
+        csv.DictWriter(stream, fieldnames=columns, lineterminator='\n').writerow(row)
 
 
 def run(config, output, provenance, device):
@@ -154,6 +154,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=ROOT / 'configs/baseline.yaml')
     parser.add_argument('--run-id', required=True)
+    parser.add_argument('--owner', default='unspecified (see run note)',
+                        help='Actual person or tool executing this run; not contribution credit')
     parser.add_argument('--device', choices=('auto', 'cpu', 'mps', 'cuda'))
     args = parser.parse_args()
     if not re.fullmatch(r'[A-Za-z0-9_-]+', args.run_id):
@@ -181,7 +183,7 @@ def main():
         'determinism': 'Seeded; deterministic algorithms warn on unsupported kernels; hardware may vary',
     })
     row = {
-        'run_id': args.run_id, 'date': date, 'owner': 'Codex (AI-assisted local execution)',
+        'run_id': args.run_id, 'date': date, 'owner': args.owner,
         'decision_id': 'D005;D006;D009',
         'hypothesis': 'Frozen ImageNet ResNet-50 features support indoor scene classification',
         'reference_run': '', 'status': 'failed', 'code_commit': provenance['commit'],
