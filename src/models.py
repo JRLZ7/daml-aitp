@@ -2,7 +2,7 @@
 
 import torch
 from torch import nn
-from torchvision.models import ResNet50_Weights, resnet50
+from torchvision.models import ResNet18_Weights, ResNet50_Weights, resnet18, resnet50
 
 from .preprocessing import preprocessing_from_checkpoint
 
@@ -29,7 +29,30 @@ class SceneClassifier(nn.Module):
 
 def load_checkpoint(path, device):
     checkpoint = torch.load(path, map_location='cpu', weights_only=True)
-    if checkpoint['architecture'] != 'resnet50':
+    architecture = checkpoint['architecture']
+    if architecture == 'resnet18':
+        classes = checkpoint['class_names']
+        if len(classes) != len(set(classes)):
+            raise ValueError('Checkpoint has duplicate class labels')
+        if checkpoint['class_to_idx'] != {label: i for i, label in enumerate(classes)}:
+            raise ValueError('Checkpoint class mapping differs from class order')
+        if checkpoint['weights'] != 'IMAGENET1K_V1':
+            raise ValueError('Historical ResNet18 requires ImageNet IMAGENET1K_V1 weights')
+        transform = ResNet18_Weights.IMAGENET1K_V1.transforms()
+        if (checkpoint['image_size'] != 224 or
+                list(checkpoint['resize_size']) != list(transform.resize_size) or
+                list(checkpoint['mean']) != list(transform.mean) or
+                list(checkpoint['std']) != list(transform.std)):
+            raise ValueError('Checkpoint preprocessing differs from ImageNet ResNet18 transforms')
+        model = resnet18(weights=None)
+        model.fc = nn.Linear(model.fc.in_features, len(classes))
+        model.load_state_dict(checkpoint['model_state_dict'])
+        # Normalize the historical schema for the shared prediction interface.
+        checkpoint = {**checkpoint, 'classes': classes,
+                      'pretrained_weights': 'ResNet18_Weights.IMAGENET1K_V1'}
+        model.to(device).eval()
+        return model, transform, checkpoint
+    if architecture != 'resnet50':
         raise ValueError('Unsupported checkpoint architecture')
     classes = checkpoint['classes']
     if len(classes) != len(set(classes)):

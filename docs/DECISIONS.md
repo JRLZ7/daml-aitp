@@ -275,7 +275,62 @@ append a dated update when a choice changes.
   baseline as strongest recorded model and use the common interfaces for future
   independent task branches. See the integration review and shared workflow.
 
-## D013 — Center-crop control versus whole-room letterbox preprocessing
+## 2026-11-21 artifact-location update — D012
+
+- Move Spencer's ten historical ResNet18 result CSVs from `experiments/` into
+  `experiments/metrics/spencer-original/`, alongside his original classical
+  results. Preserve each CSV byte-for-byte; SHA-256 was checked during the move.
+- Reason: follow the merged metrics layout and keep historical results together.
+  An alternative was placing files directly in `metrics/`; the existing named
+  archive preserves attribution and avoids mixing historical runs with shared
+  run-ID folders. This is an artifact relocation, not a new experiment or score.
+- Update notebook 03/04 CSV readers and writers and the archive documentation.
+  Clear generated notebook outputs using the existing repository script.
+  Leave the shared `experiments/results.csv` index and original CSV values intact.
+- Scope: no model, preprocessing, split, label mapping, or training change.
+  Historical notebook shared-loader migration remains separate work; no training
+  rerun is claimed. Codex performed the relocation and source/path checks.
+- Revisit if these historical experiments are adapted to the shared pipeline;
+  record any rerun under a new run ID rather than replacing the archived scores.
+
+## D013 — Prepare a submission from the best locally available checkpoint
+
+- Date: 2026-11-21. Inference run: S001-resnet18-submission-v1; verification pending.
+- User requested a Kaggle-ready artifact from the best trained model. The local
+  ResNet18 low-learning-rate checkpoint records 68.1989% validation accuracy.
+  E001's stronger 77.7674% ResNet50 checkpoint is recorded in team notes but is
+  absent from this checkout, so it cannot be used for local inference yet.
+- Use the saved ResNet18 checkpoint without fitting, test-time tuning, or
+  changing preprocessing/class order. Its ImageNet source is explicitly
+  `ResNet18_Weights.IMAGENET1K_V1`. Preserve the original weights file.
+- Extend the shared checkpoint loader to understand the historical ResNet18
+  format, retaining existing ResNet50 behavior and the shared SceneDataset.
+  Validate the historical class mapping and saved preprocessing metadata.
+- Use the local dataset via `--data-dir data`; the canonical default remains
+  `data/raw`. Match the supplied sample submission's IDs, row order and columns.
+- Alternative: wait for the remote E001 checkpoint. Produce the best available
+  local artifact now and clearly distinguish its score from the team's best
+  recorded result. No Kaggle upload is authorized or performed in this task.
+- Evidence plan: checkpoint-loading regression tests, full-image test inference,
+  unique complete sample IDs, valid labels, finite probabilities, and artifact
+  hashes. Record actual execution and AI contributions in the S001 run note.
+- Revisit when the E001 checkpoint is available; generate a separate submission
+  rather than labeling this ResNet18 artifact as the team's 77.77% model.
+
+### D013 / S001 outcome
+
+- Completed local inference on 2026-11-21: 1,340 valid predictions in exact sample
+  order and schema, saved as `submissions/final/resnet18_low_lr_S001.csv`.
+  Source checkpoint, CSV, and input hashes are recorded in the S001 note/local
+  provenance JSON. No training or Kaggle upload occurred.
+- All checkpoint/prediction tests passed, including historical ResNet18 reload
+  parity, class-order/preprocessing rejection, and existing ResNet50 inference.
+  Full suite: 14 passed; unchanged notebook 03's generated widget outputs fail
+  the repository notebook-source check. Keep that unrelated content outside this
+  submission-preparation change.
+- This is the local 68.1989% model, not the unavailable E001 77.7674% checkpoint.
+
+## D014 — Center-crop control versus whole-room letterbox preprocessing
 
 - Date: 2026-11-21. Status: predeclared for E011; fine-tuning is deferred.
 - Compare a rerun of E001 center-crop preprocessing against longest-edge-224 resize
@@ -305,7 +360,7 @@ append a dated update when a choice changes.
   clear only outputs/execution counts; retain all source cells and result CSVs.
   Do not rerun those fine-tuning experiments as part of the preprocessing task.
 
-## 2026-11-21 outcome update — D013 / E011 preprocessing
+## 2026-11-21 outcome update — D014 / E011 preprocessing
 
 - Center control reproduced all E001 predictions, 30 history rows, and 320 model
   tensors exactly: 829/1,066 (77.7674%), epoch 30, loss 0.797219.
@@ -321,3 +376,19 @@ append a dated update when a choice changes.
 - No new fine-tuning, test inference, leaderboard submission, or post-hoc grid
   expansion. Those broader tasks remain future work. Existing Spencer source
   cells/results were preserved; only generated notebook outputs were cleared.
+
+### E011 decision-ID reconciliation after main synchronization
+
+Main independently assigned D013 to Spencer's S001 checkpoint/submission work
+while E011 was running on its task branch. The shared identifier for E011 is
+now **D014**. Raw E011 run rows and resolved artifacts retain their original
+branch-local D013 and source commit a7399a5, rather than rewriting execution
+history. In those records, D013 means E011 at that commit; current E011 configs
+and notes point to D014. No modeling setting, score, split, or weight changed.
+The source commit plus run ID disambiguates historical references.
+
+Preserve main's ResNet18 loader, submission validation, archive relocation, tests,
+and original notes. The ResNet50 route additionally uses the saved preprocessing
+specification. Historical ResNet18 input handling remains unchanged. Notebook
+03/04 retain the latest main's CSV-path edits and source cells; generated outputs
+remain cleared. This sync does not train or submit a new model.

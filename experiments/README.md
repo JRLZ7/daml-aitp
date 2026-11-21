@@ -5,6 +5,10 @@ runs. `results.csv` indexes measured runs; compact metrics and curves live under
 `metrics/`. Planned experiments belong in PLAN.md, not as invented scores in the
 results file. See `notes/E001-seed42-v1.md` for the completed first baseline.
 
+Spencer's historical classical and ResNet18 CSV artifacts are preserved under
+[`metrics/spencer-original/`](metrics/spencer-original/README.md). The ResNet18
+CSVs were relocated there without changing their contents; this is not a new run.
+
 ## Before a run
 
 Assign a unique run ID (for example `E001-seed42-v1`). Record the hypothesis,

@@ -21,7 +21,7 @@ training:
   loss: cross_entropy
   selection_metric: validation_accuracy
 experiment:
-  decision_id: D013
+  decision_id: D014
   reference_run: E001-seed42-v1
   hypothesis: Preserving the entire room with aspect-ratio padding improves validation
     accuracy

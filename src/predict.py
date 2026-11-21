@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
@@ -31,6 +32,8 @@ def main():
         raise ValueError('Competition and checkpoint class orders differ')
     records = pd.read_csv(args.data_dir / 'test.csv', dtype=str)
     sample = pd.read_csv(args.data_dir / 'sample_submission.csv', dtype=str)
+    if list(sample.columns) != ['id', 'label']:
+        raise ValueError('Sample submission must have exactly id,label columns')
     if (not records['id'].is_unique or not sample['id'].is_unique or
         set(records['id']) != set(sample['id'])):
         raise ValueError('Duplicate or mismatched test/sample IDs')
@@ -38,6 +41,10 @@ def main():
     dataset = SceneDataset(records[['id', 'file_path']], args.data_dir / 'images', classes, transform)
     loader = DataLoader(dataset, batch_size=32, shuffle=False, num_workers=0)
     ids, _, probabilities = predict_probabilities(model, loader, device)
+    if (probabilities.shape != (len(records), len(classes)) or
+            not np.isfinite(probabilities).all() or len(ids) != len(set(ids)) or
+            set(ids) != set(sample['id'])):
+        raise ValueError('Incomplete or invalid model predictions')
     predicted = pd.Series([classes[i] for i in probabilities.argmax(1)], index=ids)
     result = pd.DataFrame({'id': sample['id'], 'label': sample['id'].map(predicted)})
     if result.isna().any().any() or not set(result['label']) <= set(provided):

@@ -1,6 +1,6 @@
 # E011-center-control-v1
 
-Date: 2026-11-21. Initial status: predeclared; completed outcome below. Decision D013.
+Date: 2026-11-21. Initial status: predeclared; completed outcome below. Decision D014 (D013 in the original branch-local execution record).
 Jason requested the preprocessing comparison; Codex implements and executes it.
 Reference: E001-seed42-v1 (829/1,066, 77.7674%).
 
@@ -95,3 +95,16 @@ that all whole-image/multi-view methods fail. No settings were changed after
 observing scores, no new fine-tuning was run, and no test predictions or Kaggle
 submissions were made. Higher resolution/multi-view preprocessing and a separate
 fine-tuning task remain future work.
+
+## Synchronization with concurrent main changes
+
+Main added Spencer's historical ResNet18 checkpoint/submission support during
+this task. It is preserved, along with its archived results and notebook path
+edits. Main's independently allocated D013 remains S001; E011 is now D014 in
+shared documentation. Raw E011 records keep their original D013/source-commit
+provenance and are not retroactively presented as a new run. Config metadata was
+updated to the unambiguous decision ID; all modeling settings remain identical.
+
+After the main synchronization, all **19** tests pass, including the three new
+ResNet18 checkpoint regressions. Actual-image padded ResNet50 re-evaluation still
+reproduces all 1,066 labels with the combined loader. No model was retrained.
