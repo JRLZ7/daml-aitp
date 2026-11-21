@@ -1,0 +1,22 @@
+{
+  "both_source_commits_preserved_as_merge_parents": true,
+  "classical_predictions_identical_to_spencer_original": 1066,
+  "neural_code_and_split_files_unchanged_from_jason_6edbfc2": true,
+  "notebooks": [
+    {
+      "errors": 0,
+      "executed_code_cells": 8,
+      "notebook": "01_data_exploration.ipynb",
+      "rendered_png_outputs": 3
+    },
+    {
+      "errors": 0,
+      "executed_code_cells": 7,
+      "notebook": "02_baseline.ipynb",
+      "rendered_png_outputs": 2
+    }
+  ],
+  "original_spencer_CSVs_byte_identical": true,
+  "tracked_notebook_outputs_empty": true,
+  "unit_tests_passed": 12
+}

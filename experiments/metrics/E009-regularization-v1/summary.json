@@ -1,0 +1,155 @@
+{
+  "baseline_accuracy": 0.7776735459662288,
+  "code_commit": "f177c08db193ecdb7ba33a91ab876b955f49c258",
+  "decision": "No candidate exceeded baseline validation accuracy; retain E001.",
+  "dirty_worktree": false,
+  "reference_run": "E001-seed42-v1",
+  "retained_reference_run": "E001-seed42-v1",
+  "runs": [
+    {
+      "C": 0.01,
+      "checkpoint_sha256": "b78fd0892d8f6210396973ddd52957a28e701ce3303a81a9a2cf59741e344c77",
+      "converged": true,
+      "correct": 804,
+      "export_max_probability_difference": 2.0265579223632812e-06,
+      "paired_vs_baseline": {
+        "accuracy_difference": -0.02345215759849906,
+        "corrected": 41,
+        "descriptive_paired_bootstrap_95pct": [
+          -0.04221388367729831,
+          -0.00375234521575985
+        ],
+        "net_correct": -25,
+        "prediction_disagreements": 147,
+        "regressed": 66,
+        "uncertainty_note": "Not corrected for repeated model selection; not an independent test estimate"
+      },
+      "run_id": "E009-regularization-v1-C0p01",
+      "solver_iterations": 62,
+      "train_accuracy": 0.8643510912931237,
+      "train_log_loss": 0.9030968546867371,
+      "train_minutes": 0.02646375069937979,
+      "val_accuracy": 0.7542213883677298,
+      "val_examples": 1066,
+      "val_log_loss": 1.1778371832015129,
+      "warnings": []
+    },
+    {
+      "C": 0.1,
+      "checkpoint_sha256": "c50683c1fe8d4ef38a1df054f545541d2329805c3862e2090c97597e57c1a320",
+      "converged": true,
+      "correct": 827,
+      "export_max_probability_difference": 2.3543834686279297e-06,
+      "paired_vs_baseline": {
+        "accuracy_difference": -0.001876172607879925,
+        "corrected": 38,
+        "descriptive_paired_bootstrap_95pct": [
+          -0.01876172607879925,
+          0.014094746716697807
+        ],
+        "net_correct": -2,
+        "prediction_disagreements": 105,
+        "regressed": 40,
+        "uncertainty_note": "Not corrected for repeated model selection; not an independent test estimate"
+      },
+      "run_id": "E009-regularization-v1-C0p1",
+      "solver_iterations": 102,
+      "train_accuracy": 0.9882656653367754,
+      "train_log_loss": 0.22512970864772797,
+      "train_minutes": 0.03413502986659296,
+      "val_accuracy": 0.775797373358349,
+      "val_examples": 1066,
+      "val_log_loss": 0.8058441225140804,
+      "warnings": []
+    },
+    {
+      "C": 1.0,
+      "checkpoint_sha256": "60b2588731ae2413f443e497892b55e43651887b68742bb6b5c455acb7f47494",
+      "converged": true,
+      "correct": 817,
+      "export_max_probability_difference": 2.652406692504883e-06,
+      "paired_vs_baseline": {
+        "accuracy_difference": -0.01125703564727955,
+        "corrected": 36,
+        "descriptive_paired_bootstrap_95pct": [
+          -0.028142589118198873,
+          0.005628517823639775
+        ],
+        "net_correct": -12,
+        "prediction_disagreements": 115,
+        "regressed": 48,
+        "uncertainty_note": "Not corrected for repeated model selection; not an independent test estimate"
+      },
+      "run_id": "E009-regularization-v1-C1p0",
+      "solver_iterations": 71,
+      "train_accuracy": 1.0,
+      "train_log_loss": 0.038413967937231064,
+      "train_minutes": 0.026185197916735584,
+      "val_accuracy": 0.7664165103189493,
+      "val_examples": 1066,
+      "val_log_loss": 0.8009028781150752,
+      "warnings": []
+    },
+    {
+      "C": 10.0,
+      "checkpoint_sha256": "c3e41e17a4795e730739b586f6557cca87784d90c8cdfbf5de01dd00267adbc5",
+      "converged": true,
+      "correct": 812,
+      "export_max_probability_difference": 2.950429916381836e-06,
+      "paired_vs_baseline": {
+        "accuracy_difference": -0.01594746716697936,
+        "corrected": 41,
+        "descriptive_paired_bootstrap_95pct": [
+          -0.03470919324577861,
+          0.00375234521575985
+        ],
+        "net_correct": -17,
+        "prediction_disagreements": 139,
+        "regressed": 58,
+        "uncertainty_note": "Not corrected for repeated model selection; not an independent test estimate"
+      },
+      "run_id": "E009-regularization-v1-C10p0",
+      "solver_iterations": 63,
+      "train_accuracy": 1.0,
+      "train_log_loss": 0.005643652286380529,
+      "train_minutes": 0.02660774653389429,
+      "val_accuracy": 0.7617260787992496,
+      "val_examples": 1066,
+      "val_log_loss": 0.9572612953721995,
+      "warnings": []
+    }
+  ],
+  "selected_run": "E009-regularization-v1-C0p1",
+  "selection": {
+    "bootstrap_resamples": 2000,
+    "primary": "validation_accuracy",
+    "tiebreak": "validation_log_loss_then_smaller_C"
+  },
+  "source": {
+    "feature_cache_sha256": "08db411dd2d51b4266ec6e6f21835e0df6682c270a3830742ad0be0965732926",
+    "parent_checkpoint_sha256": "19e1c80a91397432a868aaf8d280f9dfdf61424ef936c6a51f69e899f02ed707",
+    "pretrained_source": {
+      "documentation": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet50.html",
+      "identifier": "ResNet50_Weights.IMAGENET1K_V2",
+      "recipe": "https://github.com/pytorch/vision/issues/3995#issuecomment-1013906621",
+      "sha256": "11ad3fa62ca79e40addfd354a8ec4b7c75143b3038b8d2a807fbc68deab379ca",
+      "training_dataset": "ImageNet-1K",
+      "transforms": "ImageClassification(\n    crop_size=[224]\n    resize_size=[232]\n    mean=[0.485, 0.456, 0.406]\n    std=[0.229, 0.224, 0.225]\n    interpolation=InterpolationMode.BILINEAR\n)",
+      "url": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth"
+    },
+    "reference_predictions_sha256": "ec9c4eaf1f1d28cfba9658f61a1a8ae1a5d73b449d34f3b2fb6db853bd5939c5"
+  },
+  "verification": {
+    "all_candidate_encoders_identical_to_E001": true,
+    "checkpoint_hashes_and_cached_predictions_verified": [
+      "E009-regularization-v1-C0p01",
+      "E009-regularization-v1-C0p1",
+      "E009-regularization-v1-C1p0",
+      "E009-regularization-v1-C10p0"
+    ],
+    "full_image_recheck_device": "mps",
+    "pipeline_tests_passed": 9,
+    "selected_candidate_full_image_recheck_labels_match": true,
+    "selected_candidate_max_recheck_probability_difference": 2.8600000000489345e-06
+  }
+}

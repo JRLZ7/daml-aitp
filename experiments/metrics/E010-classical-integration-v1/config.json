@@ -1,0 +1,19 @@
+{
+  "data": {
+    "directory": "data/raw",
+    "split_directory": "splits"
+  },
+  "features": {
+    "hist_bins": 16,
+    "thumbnail_size": [
+      16,
+      16
+    ]
+  },
+  "training": {
+    "C": 0.01,
+    "cpu_threads": 4,
+    "max_iter": 5000,
+    "seed": 42
+  }
+}

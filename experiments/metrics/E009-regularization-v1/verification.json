@@ -1,0 +1,13 @@
+{
+  "all_candidate_encoders_identical_to_E001": true,
+  "checkpoint_hashes_and_cached_predictions_verified": [
+    "E009-regularization-v1-C0p01",
+    "E009-regularization-v1-C0p1",
+    "E009-regularization-v1-C1p0",
+    "E009-regularization-v1-C10p0"
+  ],
+  "full_image_recheck_device": "mps",
+  "pipeline_tests_passed": 9,
+  "selected_candidate_full_image_recheck_labels_match": true,
+  "selected_candidate_max_recheck_probability_difference": 2.8600000000489345e-06
+}

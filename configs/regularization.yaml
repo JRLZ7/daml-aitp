@@ -1,0 +1,25 @@
+# E009: four predeclared L2 linear classifiers on E001's exact cached features.
+experiment:
+  suite_id: E009-regularization-v1
+  note: experiments/notes/E009-regularization-v1.md
+  reference_run: E001-seed42-v1
+  reference_checkpoint: outputs/E001-seed42-v1/best.pt
+  reference_predictions: outputs/E001-seed42-v1/val_predictions.csv
+  feature_cache: outputs/E001-seed42-v1/features.pt
+data:
+  directory: data/raw
+  split_directory: splits
+training:
+  seed: 42
+  cpu_threads: 4
+  C_values: [0.01, 0.1, 1.0, 10.0]
+  solver: lbfgs
+  l1_ratio: 0.0
+  max_iter: 1000
+  tolerance: 0.0001
+  feature_scaling: none
+  class_weight: null
+selection:
+  primary: validation_accuracy
+  tiebreak: validation_log_loss_then_smaller_C
+  bootstrap_resamples: 2000

@@ -1,0 +1,23 @@
+# E001: deterministic frozen ImageNet features + a learned linear classifier.
+project:
+  seed: 42
+data:
+  directory: data/raw
+  split_directory: splits
+  batch_size: 32
+  num_workers: 0
+model:
+  architecture: resnet50
+  pretrained_weights: ResNet50_Weights.IMAGENET1K_V2
+  freeze_encoder: true
+  preprocessing: pretrained_weights_transforms
+training:
+  device: auto
+  cpu_threads: 4
+  head_batch_size: 128
+  epochs: 30
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  optimizer: AdamW
+  loss: cross_entropy
+  selection_metric: validation_accuracy
