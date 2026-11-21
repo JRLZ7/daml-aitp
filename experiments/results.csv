@@ -1,0 +1,1 @@
+run_id,date,owner,decision_id,hypothesis,reference_run,status,code_commit,dirty_worktree,config_path,split_metadata_path,seed,architecture,pretrained_source,val_accuracy,val_examples,train_minutes,artifacts_path,notes_path

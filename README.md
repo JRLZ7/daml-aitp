@@ -182,6 +182,18 @@ and selected final CSVs under `submissions/final/`. `.gitignore` excludes local
 data, credentials, environments, weights, and temporary outputs. Ignore rules
 do not remove files that are already tracked.
 
+## Decisions and experiment records
+
+Read the [decision log](docs/DECISIONS.md) for what we chose, why, alternatives,
+tradeoffs, and evidence. Important decisions must be documented as work proceeds.
+Mark ideas as hypotheses until experiments support them.
+
+The [experiment plan](experiments/PLAN.md) describes our questions and priorities.
+Follow [the experiment recording guide](experiments/README.md) before running
+models; save configs, individual validation predictions, timing, and outcomes.
+`experiments/results.csv` is the index of measured runs, including failed runs.
+No model accuracy results have been recorded yet.
+
 ## Project layout
 
 | Location | Purpose |
@@ -192,7 +204,8 @@ do not remove files that are already tracked.
 | `splits/` | Shared fitting/validation IDs, class counts, and dataset hashes |
 | `notebooks/` | Exploration and experiment notebooks |
 | `src/` | Training and inference code scaffolding |
-| `experiments/` | Validation results and experiment comparisons |
+| `docs/DECISIONS.md` | Important choices, rationale, evidence, and tradeoffs |
+| `experiments/` | Experiment plan, run records, and validation comparisons |
 | `checkpoints/` | Ignored trained weights |
 | `submissions/` | Predictions; selected final CSVs go in `final/` |
 
@@ -232,5 +245,5 @@ day and up to two selected final submissions.
 
 OpenAI Codex assisted with repository ignore rules, environment setup, the
 competition download and validation utilities, shared split generation, and
-setup documentation. Team members should
+setup documentation, decision records, and experiment planning. Team members should
 review and understand the code and update this disclosure as work continues.
