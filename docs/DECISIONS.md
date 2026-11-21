@@ -274,3 +274,21 @@ append a dated update when a choice changes.
 - Existing split/neural code/config artifacts are unchanged. Keep the ResNet
   baseline as strongest recorded model and use the common interfaces for future
   independent task branches. See the integration review and shared workflow.
+
+## 2026-11-21 artifact-location update — D012
+
+- Move Spencer's ten historical ResNet18 result CSVs from `experiments/` into
+  `experiments/metrics/spencer-original/`, alongside his original classical
+  results. Preserve each CSV byte-for-byte; SHA-256 was checked during the move.
+- Reason: follow the merged metrics layout and keep historical results together.
+  An alternative was placing files directly in `metrics/`; the existing named
+  archive preserves attribution and avoids mixing historical runs with shared
+  run-ID folders. This is an artifact relocation, not a new experiment or score.
+- Update notebook 03/04 CSV readers and writers and the archive documentation.
+  Clear generated notebook outputs using the existing repository script.
+  Leave the shared `experiments/results.csv` index and original CSV values intact.
+- Scope: no model, preprocessing, split, label mapping, or training change.
+  Historical notebook shared-loader migration remains separate work; no training
+  rerun is claimed. Codex performed the relocation and source/path checks.
+- Revisit if these historical experiments are adapted to the shared pipeline;
+  record any rerun under a new run ID rather than replacing the archived scores.
