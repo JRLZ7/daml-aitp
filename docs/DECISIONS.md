@@ -262,3 +262,15 @@ append a dated update when a choice changes.
   checkpoint reload, unchanged shared split and neural artifacts. See
   docs/INTEGRATION.md and docs/TEAM_WORKFLOW.md for rationale/handoff details.
 - Revisit if: integrated notebook/module paths or artifact provenance diverge.
+
+## 2026-11-21 outcome update — D012 / team integration
+
+- Both source histories were merged in cd2ce31. All 12 checks pass; both populated
+  notebooks run end to end (15 code cells, five rendered charts). Tracked outputs
+  remain empty and original CSVs are preserved byte-for-byte.
+- E010 reproduced the original dummy 1.5009% and SVM 8.3490% accuracies. All 1,066
+  SVM predictions match Spencer's original records, and saved pipelines reproduce
+  after reload. This is a new provenance record, not a replacement of old scores.
+- Existing split/neural code/config artifacts are unchanged. Keep the ResNet
+  baseline as strongest recorded model and use the common interfaces for future
+  independent task branches. See the integration review and shared workflow.

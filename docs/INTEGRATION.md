@@ -49,6 +49,18 @@ competing implementations of the same shared loader.
 
 ## Validation
 
-Pending: unit checks, both populated notebooks headlessly, fixed classical rerun,
-checkpoint reload checks, and unchanged neural/split artifacts. Actual outcomes
-will be appended after execution, rather than predicted here.
+Completed on 2026-11-21:
+
+- 12 unit/source checks pass, including shared-data isolation and notebook output checks.
+- Both notebooks execute end to end: 15 code cells and 5 rendered charts in total.
+- Fixed classical rerun reproduces Spencer's 1.5009% dummy and 8.3490% SVM scores.
+  Every one of 1,066 SVM predictions matches after ID alignment.
+- Locally saved classical checkpoints reproduce predictions after reload.
+- Original CSV archive is byte-identical to Spencer's source; all shared split
+  and neural code/config files remain unchanged from Jason's source.
+- Source merge commit cd2ce31 has both 6edbfc2 and 859926a as parents.
+- All tracked notebook outputs are empty; rendered copies remain ignored/local.
+
+See `experiments/notes/E010-classical-integration-v1.md` and its compact metric
+folder for actual run provenance. The 77.77% neural baseline remains the reference.
+The integration does not introduce a new model-selection split or a Kaggle upload.

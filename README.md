@@ -177,6 +177,8 @@ and output directories are never reused. Original Spencer metrics remain under
 The fixed recipe uses an 816-dimensional RGB-thumbnail/histogram representation,
 training-only StandardScaler, and LinearSVC(C=0.01). It also runs a most-frequent
 reference. No ImageNet or external scene data is used for these classical fits.
+**Verified integration rerun:** 1.50% most-frequent and 8.35% SVM accuracy;
+all 1,066 SVM predictions match Spencer's original records.
 See [the integration run note](experiments/notes/E010-classical-integration-v1.md).
 Notebook 02 can display tracked compact results even without local checkpoints.
 To explicitly train from the notebook, follow its fresh-ID/environment instructions;
