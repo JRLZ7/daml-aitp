@@ -1,0 +1,12 @@
+{
+  "after_main_sync_letterbox_labels_match": true,
+  "after_main_sync_max_probability_difference": 9.300000000100894e-07,
+  "after_main_sync_tests_passed": 19,
+  "all_320_control_model_tensors_identical_to_E001": true,
+  "both_encoders_all_318_tensors_unchanged": true,
+  "control_predictions_and_all_30_epochs_match_E001": true,
+  "letterbox_reload_all_1066_labels_match": true,
+  "letterbox_reload_max_probability_difference": 9.300000000100894e-07,
+  "resnet18_loader_compatibility_preserved": true,
+  "unit_tests_passed": 16
+}

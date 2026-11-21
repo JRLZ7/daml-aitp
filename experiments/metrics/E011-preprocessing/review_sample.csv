@@ -1,0 +1,9 @@
+id,true_label,baseline_prediction,width,height,center_crop_area_fraction
+train_002633,prisoncell,winecellar,263,337,0.7282015557877627
+train_000355,livingroom,bedroom,256,256,0.9322235434007135
+train_004958,videostore,fastfood_restaurant,500,375,0.699921883718335
+train_002819,dining_room,livingroom,256,256,0.9322235434007135
+train_000144,waitingroom,bedroom,256,256,0.9322235434007135
+train_003867,deli,children_room,500,374,0.6976640711902113
+train_000247,airport_inside,subway,500,333,0.6214823622671423
+train_005118,laboratorywet,operating_room,512,391,0.7137817229998862

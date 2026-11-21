@@ -26,6 +26,7 @@ from .common import (ROOT, choose_device, git_state, load_config, repo_path,
 from .dataset import SceneDataset, load_training_records
 from .evaluate import save_validation
 from .models import SceneClassifier, baseline_weights
+from .preprocessing import make_preprocessing
 
 
 @torch.no_grad()
@@ -57,7 +58,6 @@ def run(config, output, provenance, device):
     torch.set_num_threads(training['cpu_threads'])
     if (config['model']['architecture'] != 'resnet50' or
         config['model']['freeze_encoder'] is not True or
-        config['model']['preprocessing'] != 'pretrained_weights_transforms' or
         training['optimizer'] != 'AdamW' or training['loss'] != 'cross_entropy' or
         training['selection_metric'] != 'validation_accuracy'):
         raise ValueError('This trainer supports only the documented frozen baseline recipe')
@@ -69,13 +69,14 @@ def run(config, output, provenance, device):
     write_json(output / 'class_order.json', classes)
     write_json(output / 'split_metadata.json', metadata)
     weights = baseline_weights(config['model']['pretrained_weights'])
+    transform, preprocessing = make_preprocessing(config['model']['preprocessing'], weights)
     model = SceneClassifier(len(classes), pretrained=True)
     model.encoder.requires_grad_(False).eval().to(device)
     source = {
         'identifier': config['model']['pretrained_weights'], 'url': weights.url,
         'training_dataset': 'ImageNet-1K', 'recipe': weights.meta['recipe'],
         'documentation': 'https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet50.html',
-        'transforms': repr(weights.transforms()),
+        'transforms': repr(transform), 'preprocessing': preprocessing,
     }
     downloaded = Path(torch.hub.get_dir()) / 'checkpoints' / Path(weights.url).name
     source['sha256'] = sha256(downloaded)
@@ -83,7 +84,7 @@ def run(config, output, provenance, device):
     batches = {}
     extraction_start = time.perf_counter()
     for name, records in (('train', fit), ('validation', val)):
-        dataset = SceneDataset(records, data_dir / 'images', classes, weights.transforms())
+        dataset = SceneDataset(records, data_dir / 'images', classes, transform)
         loader = DataLoader(dataset, batch_size=config['data']['batch_size'],
                             shuffle=False, num_workers=config['data']['num_workers'])
         batches[name] = extract_features(model.encoder, loader, device, f'Extracting {name}')
@@ -91,7 +92,7 @@ def run(config, output, provenance, device):
     model.encoder.cpu()
     # Keep features for reproducible head-only comparisons, with their provenance.
     torch.save({'batches': batches, 'classes': classes, 'source': source,
-                'split_metadata': metadata}, output / 'features.pt')
+                'split_metadata': metadata, 'preprocessing': preprocessing}, output / 'features.pt')
     x_train, y_train, _ = batches['train']
     x_val, y_val, val_ids = batches['validation']
     torch.manual_seed(seed)
@@ -136,7 +137,7 @@ def run(config, output, provenance, device):
     checkpoint = {
         'format_version': 1, 'architecture': 'resnet50', 'classes': classes,
         'pretrained_weights': config['model']['pretrained_weights'],
-        'state_dict': model.state_dict(), 'config': config, 'split_metadata': metadata,
+        'preprocessing': preprocessing, 'state_dict': model.state_dict(), 'config': config, 'split_metadata': metadata,
         'pretrained_source': source, 'best_epoch': best_epoch, 'provenance': provenance,
     }
     torch.save(checkpoint, output / 'best.pt')
@@ -144,6 +145,9 @@ def run(config, output, provenance, device):
     (output / 'best.pt.sha256').write_text(f'{digest}  best.pt\n')
     pd.DataFrame(history).to_csv(output / 'history.csv', index=False)
     return {**metrics, 'best_epoch': best_epoch, 'epochs': training['epochs'],
+            'val_loss': history[best_epoch - 1]['val_loss'],
+            'train_accuracy': history[best_epoch - 1]['train_accuracy'],
+            'preprocessing': preprocessing,
             'feature_extraction_seconds': extraction_seconds,
             'head_training_seconds': head_seconds, 'checkpoint_sha256': digest,
             'pretrained_sha256': source['sha256'], 'feature_device': str(device),
@@ -184,9 +188,10 @@ def main():
     })
     row = {
         'run_id': args.run_id, 'date': date, 'owner': args.owner,
-        'decision_id': 'D005;D006;D009',
-        'hypothesis': 'Frozen ImageNet ResNet-50 features support indoor scene classification',
-        'reference_run': '', 'status': 'failed', 'code_commit': provenance['commit'],
+        'decision_id': config.get('experiment', {}).get('decision_id', 'D005;D006;D009'),
+        'hypothesis': config.get('experiment', {}).get('hypothesis',
+            'Frozen ImageNet ResNet-50 features support indoor scene classification'),
+        'reference_run': config.get('experiment', {}).get('reference_run', ''), 'status': 'failed', 'code_commit': provenance['commit'],
         'dirty_worktree': provenance['dirty'],
         'config_path': f'outputs/{args.run_id}/config.json',
         'split_metadata_path': 'splits/metadata.json', 'seed': config['project']['seed'],

@@ -1,0 +1,123 @@
+{
+  "decision": "Retain E001 center crop; this letterbox policy did not improve validation accuracy.",
+  "new_fine_tuning_performed": false,
+  "paired_letterbox_vs_center": {
+    "accuracy_difference": -0.005628517823639775,
+    "corrected": 57,
+    "descriptive_paired_bootstrap_95pct": [
+      -0.02626641651031895,
+      0.014071294559099437
+    ],
+    "net_correct": -6,
+    "prediction_disagreements": 178,
+    "regressed": 63,
+    "uncertainty_note": "Not corrected for repeated model selection; not an independent test estimate"
+  },
+  "runs": [
+    {
+      "best_epoch": 30,
+      "checkpoint_sha256": "8b6acc8a3b1cf0f1659412d218edfaa1e8870e2d4119f262e98f898a1f0b73d5",
+      "code_provenance": {
+        "commit": "a7399a5c9fad7e7ed52a440fab6f9f4f4b782f50",
+        "diff": "",
+        "dirty": false,
+        "status": ""
+      },
+      "correct": 829,
+      "epochs": 30,
+      "feature_device": "mps",
+      "feature_extraction_seconds": 54.09092345798854,
+      "head_device": "cpu",
+      "head_training_seconds": 1.0013441670453176,
+      "preprocessing": {
+        "antialias": true,
+        "center_crop": [
+          224
+        ],
+        "interpolation": "bilinear",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "policy": "pretrained_weights_transforms",
+        "resize_shorter_edge": [
+          232
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ]
+      },
+      "pretrained_sha256": "11ad3fa62ca79e40addfd354a8ec4b7c75143b3038b8d2a807fbc68deab379ca",
+      "pretrained_source": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth",
+      "run_id": "E011-center-control-v1",
+      "train_accuracy": 0.9978877902030945,
+      "train_minutes": 0.9390799236154028,
+      "val_accuracy": 0.7776735459662288,
+      "val_examples": 1066,
+      "val_loss": 0.7972193360328674
+    },
+    {
+      "best_epoch": 29,
+      "checkpoint_sha256": "f96624b9ba417a714a370225dde399a41fc1fbff4c6f7b3a2a309b06a15b712e",
+      "code_provenance": {
+        "commit": "a7399a5c9fad7e7ed52a440fab6f9f4f4b782f50",
+        "diff": "diff --git a/experiments/results.csv b/experiments/results.csv\nindex 795bcc1..b93edd7 100644\n--- a/experiments/results.csv\n+++ b/experiments/results.csv\n@@ -6,3 +6,4 @@ E009-regularization-v1-C1p0,2026-11-21,Codex (AI-assisted local execution),D011,\n E009-regularization-v1-C10p0,2026-11-21,Codex (AI-assisted local execution),D011,L2 regularization and converged linear-head fitting improve frozen-feature generalization,E001-seed42-v1,completed,f177c08db193ecdb7ba33a91ab876b955f49c258,False,outputs/E009-regularization-v1/E009-regularization-v1-C10p0/config.json,splits/metadata.json,42,resnet50,ResNet50_Weights.IMAGENET1K_V2,0.7617260787992496,1066,0.02660774653389429,outputs/E009-regularization-v1/E009-regularization-v1-C10p0,experiments/notes/E009-regularization-v1.md\n E010-classical-integration-v1-dummy,2026-11-21,Codex (AI-assisted integration execution),D012,Reproduce Spencer classical reference with shared loader and split,Spencer original 859926a,completed,cd2ce318f8d5e271d4007c6eda779ba9bb21b186,False,outputs/E010-classical-integration-v1/config.json,splits/metadata.json,42,most_frequent,none,0.0150093808630394,1066,1.3382568291660089,outputs/E010-classical-integration-v1,experiments/notes/E010-classical-integration-v1.md\n E010-classical-integration-v1-svm,2026-11-21,Codex (AI-assisted integration execution),D012,Reproduce Spencer classical reference with shared loader and split,Spencer original 859926a,completed,cd2ce318f8d5e271d4007c6eda779ba9bb21b186,False,outputs/E010-classical-integration-v1/config.json,splits/metadata.json,42,rgb_hist_linear_svm,none,0.08348968105065666,1066,1.3382568291660089,outputs/E010-classical-integration-v1,experiments/notes/E010-classical-integration-v1.md\n+E011-center-control-v1,2026-11-21,Codex (AI-assisted local execution),D013,Check center-crop reproducibility,E001-seed42-v1,completed,a7399a5c9fad7e7ed52a440fab6f9f4f4b782f50,False,outputs/E011-center-control-v1/config.json,splits/metadata.json,42,resnet50,ResNet50_Weights.IMAGENET1K_V2,0.7776735459662288,1066,0.9390799236154028,outputs/E011-center-control-v1,experiments/notes/E011-center-control-v1.md",
+        "dirty": true,
+        "status": "M experiments/results.csv"
+      },
+      "correct": 823,
+      "epochs": 30,
+      "feature_device": "mps",
+      "feature_extraction_seconds": 53.0016341250157,
+      "head_device": "cpu",
+      "head_training_seconds": 1.0131646670633927,
+      "preprocessing": {
+        "fill": [
+          124,
+          116,
+          104
+        ],
+        "interpolation": "bilinear",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "padding": "center_floor_left_top",
+        "policy": "letterbox_224_imagenet_mean",
+        "resize_longest_edge": 224,
+        "rounding": "python_round_half_even",
+        "size": 224,
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ]
+      },
+      "pretrained_sha256": "11ad3fa62ca79e40addfd354a8ec4b7c75143b3038b8d2a807fbc68deab379ca",
+      "pretrained_source": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth",
+      "run_id": "E011-letterbox-v1",
+      "train_accuracy": 0.9985918998718262,
+      "train_minutes": 0.9193162548666199,
+      "val_accuracy": 0.7720450281425891,
+      "val_examples": 1066,
+      "val_loss": 0.8164140582084656
+    }
+  ],
+  "test_inference_performed": false,
+  "verification": {
+    "after_main_sync_letterbox_labels_match": true,
+    "after_main_sync_max_probability_difference": 9.300000000100894e-07,
+    "after_main_sync_tests_passed": 19,
+    "all_320_control_model_tensors_identical_to_E001": true,
+    "both_encoders_all_318_tensors_unchanged": true,
+    "control_predictions_and_all_30_epochs_match_E001": true,
+    "letterbox_reload_all_1066_labels_match": true,
+    "letterbox_reload_max_probability_difference": 9.300000000100894e-07,
+    "resnet18_loader_compatibility_preserved": true,
+    "unit_tests_passed": 16
+  }
+}

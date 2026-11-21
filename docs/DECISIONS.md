@@ -329,3 +329,66 @@ append a dated update when a choice changes.
   the repository notebook-source check. Keep that unrelated content outside this
   submission-preparation change.
 - This is the local 68.1989% model, not the unavailable E001 77.7674% checkpoint.
+
+## D014 — Center-crop control versus whole-room letterbox preprocessing
+
+- Date: 2026-11-21. Status: predeclared for E011; fine-tuning is deferred.
+- Compare a rerun of E001 center-crop preprocessing against longest-edge-224 resize
+  plus centered padding (RGB 124,116,104). Use PIL bilinear, Python-round dimensions
+  (minimum 1), floor left/top padding offsets, and the same ImageNet normalization.
+- Keep encoder, split, classes, initialization, head optimizer, learning rate,
+  weight decay, batch sizes, 30 epochs, and selection/tie rule identical to E001.
+  Use new image features; no augmentation or feature normalization is added.
+- Why: test whether the whole-room input policy improves over the center crop.
+  Preserving context also changes object scale and adds borders, so this experiment
+  cannot isolate a single visual mechanism. Padding can hurt as well as help.
+- Evidence: fixed validation-error review, measured crop fractions, paired error
+  changes, validation loss/accuracy, encoder equality, and checkpoint reloads.
+  The center control must reproduce the old pipeline before interpreting treatment.
+- Store explicit preprocessing in new checkpoints and caches. Old checkpoints
+  keep their original transforms. Reject unsupported/mismatched specifications;
+  evaluation and submission inference must never silently use a different policy.
+- Alternatives: stretch images, use multiple crops, increase resolution, or fine-tune.
+  Those are separate future experiments, not combined into this comparison.
+- Latest main already includes Spencer's separate ResNet-18 experiments. Preserve
+  their method and metrics; they are not new work authorized by this E011 task.
+- Revisit after the fixed two-run result. Small selected validation gains require
+  confirmation; no test inference, Kaggle submission, or further grid tuning here.
+
+- Repository hygiene during this task: newly merged notebooks 03/04 had generated
+  outputs despite the existing source-only convention. Preserve local copies and
+  clear only outputs/execution counts; retain all source cells and result CSVs.
+  Do not rerun those fine-tuning experiments as part of the preprocessing task.
+
+## 2026-11-21 outcome update — D014 / E011 preprocessing
+
+- Center control reproduced all E001 predictions, 30 history rows, and 320 model
+  tensors exactly: 829/1,066 (77.7674%), epoch 30, loss 0.797219.
+- Whole-image padding reached 823/1,066 (77.2045%), epoch 29, loss 0.816414.
+  It corrected 57 baseline errors but regressed on 63; retain the center reference.
+- Interpretation: this one padded 224-pixel policy found no measured improvement.
+  The six-image difference is small; descriptive paired uncertainty spans zero.
+  Context retention, reduced object scale, and padding are intertwined mechanisms.
+  Do not conclude that all context-aware preprocessing is ineffective.
+- Verification: both encoders unchanged, padded reload reproduces every validation
+  label, explicit transform serialization works, and legacy checkpoints retain
+  their original transform. Sixteen tests pass. See E011 notes and compact metrics.
+- No new fine-tuning, test inference, leaderboard submission, or post-hoc grid
+  expansion. Those broader tasks remain future work. Existing Spencer source
+  cells/results were preserved; only generated notebook outputs were cleared.
+
+### E011 decision-ID reconciliation after main synchronization
+
+Main independently assigned D013 to Spencer's S001 checkpoint/submission work
+while E011 was running on its task branch. The shared identifier for E011 is
+now **D014**. Raw E011 run rows and resolved artifacts retain their original
+branch-local D013 and source commit a7399a5, rather than rewriting execution
+history. In those records, D013 means E011 at that commit; current E011 configs
+and notes point to D014. No modeling setting, score, split, or weight changed.
+The source commit plus run ID disambiguates historical references.
+
+Preserve main's ResNet18 loader, submission validation, archive relocation, tests,
+and original notes. The ResNet50 route additionally uses the saved preprocessing
+specification. Historical ResNet18 input handling remains unchanged. Notebook
+03/04 retain the latest main's CSV-path edits and source cells; generated outputs
+remain cleared. This sync does not train or submit a new model.

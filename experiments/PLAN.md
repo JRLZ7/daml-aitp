@@ -91,3 +91,15 @@ and selection rule.
 
 E009 outcome: no candidate exceeded E001; retain the baseline and proceed to
 validation-error review and controlled context experiments.
+
+## E011 — current preprocessing task
+
+Run a fresh center-crop control and a whole-image letterbox treatment with the
+same frozen ResNet-50 and 30-epoch head recipe. See the two E011 run notes and
+D013. New ResNet-50 fine-tuning is deferred; existing Spencer ResNet-18 work is
+preserved. Do not combine augmentation, resolution, or fine-tuning into E011.
+
+E011 outcome: center control exactly reproduced E001; padding reached 77.20%
+versus 77.77%, with 57 corrections and 63 regressions. Keep center cropping.
+Do not add further view/resolution settings to the completed comparison. New
+preprocessing or fine-tuning work needs its own hypothesis, config, and run IDs.
