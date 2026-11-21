@@ -17,8 +17,16 @@ git status
 git branch --show-current
 ```
 
-Jason works on `jason-zhou`. Other teammates should use their own branches.
-Save or commit existing work before switching branches.
+`main` is the shared reviewed version. Start new tasks on separate branches
+from updated main; the historical `jason-zhou` and `skolodny/initialTesting`
+branches are preserved as sources of this integration. Save your own work before
+switching branches and do not switch a checkout another agent is actively using.
+
+**For teammates and Codex:** read [AGENTS.md](AGENTS.md), the
+[shared workflow](docs/TEAM_WORKFLOW.md), [decision log](docs/DECISIONS.md), and
+[experiment recording guide](experiments/README.md) before editing. The shared
+workflow includes a ready-to-copy Codex handoff prompt. The
+[integration review](docs/INTEGRATION.md) explains what was kept from each branch.
 
 ## 2. Set up Python once
 
@@ -130,9 +138,49 @@ source .venv/bin/activate
 
 Windows PowerShell: `.\.venv\Scripts\Activate.ps1`.
 
-The current workflow uses Python `.py` files. Run the module commands below
-from the repository root. In VS Code, select the interpreter inside `.venv`.
-Run `deactivate` when you are finished in a terminal.
+Reusable training, features, and inference use `.py` modules. Populated notebooks
+are retained for exploration and explaining results; they call the same shared
+code. In VS Code, select the interpreter inside `.venv`. Run `deactivate` when
+you are finished in a terminal.
+
+For optional notebooks, install and launch:
+
+```bash
+python -m pip install -r requirements-notebooks.txt
+python -m jupyterlab
+```
+
+Open `notebooks/01_data_exploration.ipynb` for data inspection or
+`notebooks/02_baseline.ipynb` for Spencer's classical baseline and error analysis.
+Both use `data/raw/`, `classes.csv`, and the committed shared split. Notebook 02
+loads recorded results by default; it does not silently retrain or overwrite runs.
+Run all cells on your local course data, then clear outputs before committing:
+
+```bash
+python scripts/clear_notebook_outputs.py notebooks/01_data_exploration.ipynb notebooks/02_baseline.ipynb
+```
+
+## Run the classical baseline
+
+Spencer's RGB-thumbnail/histogram + SVM method is shared by the CLI and notebook:
+
+```bash
+python -m src.classical --config configs/classical.yaml --run-id E010-classical-integration-v1 --owner "YOUR NAME"
+```
+
+The documented integration run ID may already be recorded. For a new rerun, first
+choose a fresh ID, copy the pre-run note to `experiments/notes/YOUR_RUN_ID.md`,
+update its hypothesis/ownership, and replace the command's run ID. Existing IDs
+and output directories are never reused. Original Spencer metrics remain under
+`experiments/metrics/spencer-original/`; reruns have independent provenance.
+
+The fixed recipe uses an 816-dimensional RGB-thumbnail/histogram representation,
+training-only StandardScaler, and LinearSVC(C=0.01). It also runs a most-frequent
+reference. No ImageNet or external scene data is used for these classical fits.
+See [the integration run note](experiments/notes/E010-classical-integration-v1.md).
+Notebook 02 can display tracked compact results even without local checkpoints.
+To explicitly train from the notebook, follow its fresh-ID/environment instructions;
+normal notebook execution only reads the recorded run.
 
 ## Train the frozen ResNet-50 baseline
 
@@ -222,7 +270,21 @@ copy the config and prepare a new note/ID for an intentional repeat.
 
 ## 6. Save and share work with Git
 
-Before working, fetch updates and inspect your branch:
+Use a fresh task branch from updated main for new work:
+
+```bash
+git fetch origin
+git switch main
+git pull --ff-only
+git switch -c codex/YOUR-NAME-TASK
+```
+
+Check that your working tree is clean before switching. Do not work concurrently
+on the same task branch or checkout. Keep source history intact; use reviewed
+pull requests into main rather than directly replacing files from another branch.
+See [the full team workflow](docs/TEAM_WORKFLOW.md).
+
+While working, fetch updates and inspect your branch:
 
 ```bash
 git fetch origin
@@ -271,11 +333,12 @@ have no score until execution completes.
 | Location | Purpose |
 | --- | --- |
 | `config.yaml` | Data validation and shared split settings |
-| `configs/baseline.yaml` | Explicit frozen ResNet-50 training recipe |
+| `configs/` | Fixed classical, ResNet-50, and regularization recipes |
 | `data/` | Download instructions and ignored local competition files |
 | `scripts/` | Data download, validation, and split utilities |
 | `splits/` | Shared fitting/validation IDs, class counts, and dataset hashes |
-| `src/` | Image loader, frozen baseline trainer, evaluation, and prediction |
+| `src/` | Shared loader, classical/ResNet baselines, regularization, evaluation, prediction |
+| `notebooks/` | Populated exploration and classical analysis; no committed outputs |
 | `tests/` | Data isolation, mapping, and frozen-encoder checks |
 | `docs/DECISIONS.md` | Important choices, rationale, evidence, and tradeoffs |
 | `experiments/` | Experiment plan, run records, and validation comparisons |
@@ -319,5 +382,8 @@ day and up to two selected final submissions.
 OpenAI Codex assisted with repository ignore rules, environment setup, the
 competition download and validation utilities, shared split generation, and
 setup documentation, decision records, experiment planning, and baseline
-training/evaluation/inference code and checks, and regularization experiments. Team members should
+training/evaluation/inference code and checks, regularization experiments, and
+branch integration. Spencer authored the original exploration and classical
+feature/SVM method; Codex adapted it to the shared loader and reusable module.
+See the integration review and run notes for actual execution/contribution records. Team members should
 review and understand the code and update this disclosure as work continues.

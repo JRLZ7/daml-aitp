@@ -1,0 +1,12 @@
+# Spencer's original fixed feature/SVM recipe; no hyperparameter tuning here.
+data:
+  directory: data/raw
+  split_directory: splits
+features:
+  thumbnail_size: [16, 16]
+  hist_bins: 16
+training:
+  seed: 42
+  C: 0.01
+  max_iter: 5000
+  cpu_threads: 4

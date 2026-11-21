@@ -235,3 +235,30 @@ append a dated update when a choice changes.
 - Next: validation-error review followed by a controlled scene-context experiment;
   fine-tuning is still separate. No post-hoc grid expansion or ensemble tuning,
   test inference, or Kaggle submission occurred.
+
+## D012 — Integrate Spencer's analysis and classical baseline with the shared pipeline
+
+- Date: 2026-11-21. Status: implementation selected; verification pending.
+- Sources: Jason 6edbfc2, Spencer 859926a. Preserve both histories with a normal
+  merge on `codex/integrate-team-workflow`; do not rewrite the original branches.
+- Keep Jason's manifest/split loader, neural pipeline, tests, and historical
+  results. Keep Spencer's populated notebooks and classical RGB/histogram + SVM
+  method. Preserve his original CSVs unchanged in a named archive.
+- Resolve the dataset conflict by using the existing shared loader, canonical
+  column names, data/raw layout, and classes.csv order. Adapt notebook calls
+  instead of carrying duplicate loaders or independently generated splits.
+- Reason: one data contract prevents silent divergence and retains useful work
+  from both branches. All 1,066 validation IDs and true labels were explicitly
+  checked to match before comparing the recorded classical and neural scores.
+- Factor classical feature/fitting code into src.classical; notebooks call it.
+  Preserve the fixed recipe and record the E010 integration rerun separately.
+- Clear current notebook outputs and keep galleries local. Do not restore empty
+  future-work notebooks. Optional Jupyter requirements remain separate from core.
+- Alternatives: choose one branch wholesale, blindly accept ours/theirs, or keep
+  parallel incompatible loaders. Those would discard useful work or create drift.
+- User explicitly chose to leave repository visibility unchanged despite existing
+  public notebook image history. Clear current outputs without rewriting history.
+- Evidence plan: all tests, both notebooks end to end, fixed classical rerun and
+  checkpoint reload, unchanged shared split and neural artifacts. See
+  docs/INTEGRATION.md and docs/TEAM_WORKFLOW.md for rationale/handoff details.
+- Revisit if: integrated notebook/module paths or artifact provenance diverge.
