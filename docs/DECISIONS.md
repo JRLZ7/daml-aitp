@@ -171,3 +171,23 @@ append a dated update when a choice changes.
   Confusion pairs are small-sample observations, not explanations by themselves.
 - Next evidence: validation-error review and separate fine-tuning/context
   comparisons. No test predictions or Kaggle uploads were made for this run.
+
+## D010 — Remove unused scaffolding after the first working baseline
+
+- Date: 2026-11-21. Status: implemented at user request.
+- Choice: remove the three empty notebooks and redundant directory placeholders;
+  keep the working Python package and `src/__init__.py`. Remove notebook-only
+  direct dependencies from minimal requirements; preserve the original environment
+  lock file and all historical run records. No installed packages are uninstalled.
+- Simplify root `config.yaml` to the class count, seed, and validation fraction
+  actually consumed by preparation. Training uses `configs/baseline.yaml`.
+- Why: show only usable functionality and eliminate misleading ResNet-18 settings
+  and notebook commands. Add notebooks later when they contain actual analysis.
+- Provenance: keep the existing split metadata and checkpoint intact. Data
+  preparation preserves creation-time metadata when the full recomputed report
+  differs only in the hash of unused config text. All other differences and
+  changed split-file content still trigger review rather than replacement.
+- Alternative: leave empty future-work files or rewrite historical metadata.
+- Validation: re-run preparation and check all saved split files stay byte-identical;
+  run pipeline checks. The original baseline config remains in Git history.
+- Revisit if: a working notebook or additional artifact storage is implemented.

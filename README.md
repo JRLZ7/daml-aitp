@@ -63,7 +63,8 @@ requirements install:
 python -m pip install -r requirements-macos-py311.lock.txt
 ```
 
-The lock file records the initial Mac environment. Other operating systems and
+The lock file records the original baseline Mac environment, including notebook
+tools removed from the current minimal requirements. It is retained for provenance. Other operating systems and
 GPU setups may need compatible PyTorch packages and their own version records.
 
 ## 3. Download the Kaggle competition data
@@ -129,14 +130,9 @@ source .venv/bin/activate
 
 Windows PowerShell: `.\.venv\Scripts\Activate.ps1`.
 
-To open the notebooks:
-
-```bash
-python -m jupyterlab
-```
-
-In VS Code, choose the interpreter inside this repository's `.venv` folder for
-Python files and notebooks. Run `deactivate` when you are finished in a terminal.
+The current workflow uses Python `.py` files. Run the module commands below
+from the repository root. In VS Code, select the interpreter inside `.venv`.
+Run `deactivate` when you are finished in a terminal.
 
 ## Train the frozen ResNet-50 baseline
 
@@ -157,7 +153,7 @@ stays frozen. See the [recipe decision](docs/DECISIONS.md#d009--e001-frozen-feat
 and [run note](experiments/notes/E001-seed42-v1.md) for rationale and limitations.
 
 `configs/baseline.yaml` controls model training. Root `config.yaml` is used for
-split preparation; its original model/training fields are unused scaffolding.
+split preparation only.
 The trainer records the resolved config, code commit, environment, checkpoint
 source/checksums, learning curves, validation predictions, and per-class results
 in ignored `outputs/E001-seed42-v1/`, and appends a row to `experiments/results.csv`.
@@ -253,18 +249,17 @@ have no score until execution completes.
 
 | Location | Purpose |
 | --- | --- |
-| `config.yaml` | Split-preparation settings; old model/training fields are unused |
+| `config.yaml` | Data validation and shared split settings |
 | `configs/baseline.yaml` | Explicit frozen ResNet-50 training recipe |
 | `data/` | Download instructions and ignored local competition files |
 | `scripts/` | Data download, validation, and split utilities |
 | `splits/` | Shared fitting/validation IDs, class counts, and dataset hashes |
-| `notebooks/` | Exploration and experiment notebooks |
 | `src/` | Image loader, frozen baseline trainer, evaluation, and prediction |
 | `tests/` | Data isolation, mapping, and frozen-encoder checks |
 | `docs/DECISIONS.md` | Important choices, rationale, evidence, and tradeoffs |
 | `experiments/` | Experiment plan, run records, and validation comparisons |
-| `checkpoints/` | Ignored trained weights |
-| `submissions/` | Predictions; selected final CSVs go in `final/` |
+| `outputs/` | Generated run artifacts, including model weights; ignored by Git |
+| `submissions/` | Created when predicting; selected final CSVs go in `final/` |
 
 ## Common setup problems
 

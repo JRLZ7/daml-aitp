@@ -25,6 +25,11 @@ rather than independently generating new splits. The script refuses to replace
 existing files with different content; use a separate `--output-dir` to review
 a deliberately changed split. Dataset images remain ignored by Git.
 
-The hashes identify CSV manifests and assignments, not the image bytes. A full
-config hash is recorded, so changing even non-split settings changes the report;
-reuse the saved IDs for experiments instead of regenerating this directory.
+The hashes identify CSV manifests and assignments, not the image bytes.
+`config_sha256` records the full config at the time this split was created. If
+only unused config text changes and all computed split metadata and assignments
+remain identical, validation preserves the original creation-time metadata.
+Changes to seeds, fractions, data, assignments, or library versions still require
+review in a separate output directory. The original full config is available in
+Git at the split-creation commit; the current root config contains only settings
+used by data preparation.

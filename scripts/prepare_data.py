@@ -117,6 +117,13 @@ def main():
         name: hashlib.sha256(outputs[name].encode()).hexdigest()
         for name in ('train_ids.csv', 'val_ids.csv')
     }
+    metadata_path = args.output_dir / 'metadata.json'
+    if metadata_path.exists():
+        recorded = json.loads(metadata_path.read_text())
+        # Preserve creation-time provenance when only unused config text changed.
+        comparable = lambda value: {k: v for k, v in value.items() if k != 'config_sha256'}
+        if comparable(recorded) == comparable(metadata):
+            metadata = recorded
     outputs['metadata.json'] = json.dumps(metadata, indent=2, sort_keys=True) + '\n'
     # Keep existing team assignments intact if the data/config/environment changes.
     for name, content in outputs.items():

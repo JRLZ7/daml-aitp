@@ -16,11 +16,9 @@ kaggle.json
 # Downloaded competition data
 /data/*
 !/data/README.md
-!/data/.gitkeep
 
 # Model weights and generated artifacts
 /checkpoints/*
-!/checkpoints/.gitkeep
 *.pt
 *.pth
 *.ckpt
@@ -31,7 +29,6 @@ kaggle.json
 
 # Intermediate predictions; retain selected final submissions
 /submissions/*
-!/submissions/.gitkeep
 !/submissions/final/
 !/submissions/final/**
 
