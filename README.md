@@ -199,6 +199,21 @@ separate from the first baseline training/validation run.
 Next: inspect validation errors, compare fine-tuning and context/resolution
 changes, and confirm finalists. Fine-tuning is not implemented in this trainer.
 
+## Run the regularization experiment
+
+After the E001 feature cache and checkpoint exist locally:
+
+```bash
+python -m src.regularization --config configs/regularization.yaml --owner "YOUR NAME"
+```
+
+This fits four L2 linear classifiers on the same frozen features and saves each
+as a full scene checkpoint under `outputs/E009-regularization-v1/`. It compares
+validation accuracy, log loss, and corrected/regressed examples with E001.
+The test set is not used. The [suite note](experiments/notes/E009-regularization-v1.md)
+records the hypothesis, settings, and limitations. Suite IDs cannot be reused;
+copy the config and prepare a new note/ID for an intentional repeat.
+
 ## 6. Save and share work with Git
 
 Before working, fetch updates and inspect your branch:

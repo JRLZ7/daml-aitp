@@ -46,6 +46,7 @@ separate where possible.
 | E006 | Do global and local views complement each other? | Whole-image + pooled local features | Ablate global-only/local-only/combined; cost |
 | E007 | Do two trained models complement each other? | Equal-weight probability ensemble | Accuracy, corrections, regressions, inference cost |
 | E008 | Do finalist gains persist? | Predeclared confirmation split/seeds | Same frozen choices on additional comparisons |
+| E009 | Does head regularization help? | Four fixed L2 strengths on cached E001 features | Convergence, loss, paired errors, exported checkpoint |
 
 E006 is optional: proceed only if error analysis and compute justify it. When
 testing changes together, describe the result as a combined recipe rather than
@@ -82,3 +83,7 @@ record the exact training data and identifier of every pretrained checkpoint.
 - [Torchvision models and weights](https://docs.pytorch.org/vision/stable/models.html): candidate ImageNet checkpoint metadata and transforms.
 - [A ConvNet for the 2020s](https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_CVPR_2022_paper.html): ConvNeXt architecture reference.
 - [Multi-scale Orderless Pooling of Deep Convolutional Activation Features](https://arxiv.org/abs/1403.1840): motivation for testing complementary global/local representations. Our proposed simple pooling experiment is not a reproduction of that method.
+
+E009 is executed before encoder/preprocessing changes as an inexpensive diagnostic.
+See [the predeclared suite note](notes/E009-regularization-v1.md) for its fixed grid
+and selection rule.

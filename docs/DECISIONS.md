@@ -191,3 +191,31 @@ append a dated update when a choice changes.
 - Validation: re-run preparation and check all saved split files stay byte-identical;
   run pipeline checks. The original baseline config remains in Git history.
 - Revisit if: a working notebook or additional artifact storage is implemented.
+
+## D011 — Four-candidate regularization suite on cached E001 features
+
+- Date: 2026-11-21. Status: predeclared for execution; E009-regularization-v1.
+- Choice: four independent multinomial L2 logistic-regression fits with
+  C=[0.01, 0.1, 1.0, 10.0], lbfgs, tol=1e-4, max_iter=1000, seed 42.
+  Fit only the fitting split; use unchanged raw E001 features and class order.
+- Why: test the inexpensive head-fitting explanation for the gap before changing
+  image preprocessing or the encoder. Smaller C increases L2 regularization.
+- Alternative: an AdamW weight-decay grid, broader automated search, or immediate
+  fine-tuning. C isolates regularization within this suite; comparing with E001
+  also changes optimization/convergence and cannot isolate regularization alone.
+- Evidence: verify cached ID/label alignment and source hashes, save every
+  candidate's probabilities, convergence, losses, accuracy, timing, and paired
+  corrections/regressions. Export full PyTorch checkpoints; re-evaluate the selected
+  candidate from actual images with the existing evaluator.
+- Selection: converged candidates only; highest validation accuracy, then lower
+  log loss, then smaller C. Four candidates fixed before running; no grid expansion
+  based on results. Pairwise bootstrap intervals are descriptive, not corrected
+  for selection. Additional split confirmation remains necessary for finalists.
+- Tradeoffs: raw feature scales affect regularization; no standardization is
+  introduced here. The selected score reuses validation and may be optimistic.
+- Config/note: `configs/regularization.yaml`,
+  `experiments/notes/E009-regularization-v1.md`. No test inference or Kaggle uploads.
+- Implementation dependency: declare threadpoolctl directly to bound BLAS threads;
+  it is already present in the saved environment. No new package install is needed.
+- Revisit: after all four outcomes, decide whether to retain a head candidate
+  and move to validation-error review/context/fine-tuning experiments.
