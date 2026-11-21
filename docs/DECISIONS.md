@@ -219,3 +219,19 @@ append a dated update when a choice changes.
   it is already present in the saved environment. No new package install is needed.
 - Revisit: after all four outcomes, decide whether to retain a head candidate
   and move to validation-error review/context/fine-tuning experiments.
+
+## 2026-11-21 outcome update — D011 / E009-regularization-v1
+
+- Status: completed. All four predeclared L2 fits converged with no warnings.
+  Validation accuracy for C=[0.01,0.1,1,10] was [75.42%,77.58%,76.64%,76.17%].
+- Decision: keep E001's 77.77% as the current reference. C=0.1 is selected within
+  this suite only; it corrected 38 baseline errors and regressed on 40 (-2 net).
+- Interpretation: a smaller fitting/validation gap does not guarantee higher
+  validation accuracy. This grid found no improvement; it does not rule out all
+  regularization methods or establish an independent estimate of relative quality.
+- Evidence: all four checkpoint hashes and cached predictions checked; encoders
+  identical to E001. Full-image MPS reload of C=0.1 reproduced all validation
+  labels. Nine pipeline checks pass. Run note/compact summary retain the details.
+- Next: validation-error review followed by a controlled scene-context experiment;
+  fine-tuning is still separate. No post-hoc grid expansion or ensemble tuning,
+  test inference, or Kaggle submission occurred.

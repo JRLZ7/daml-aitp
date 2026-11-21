@@ -1,8 +1,9 @@
 # Experiment plan
 
-This plan was drafted before the first model run. E001 is now completed: see
-[its run note](notes/E001-seed42-v1.md) for measured results. All proposed
-improvements below remain hypotheses until separately tested.
+This plan was drafted before the first model run. E001 and E009 are completed:
+see the [baseline](notes/E001-seed42-v1.md) and
+[regularization](notes/E009-regularization-v1.md) notes for measured results.
+Other proposed improvements remain hypotheses until separately tested.
 
 ## Where we can earn an advantage
 
@@ -31,8 +32,8 @@ AI can help generate code; the team must choose questions and assess evidence.
 
 ## Initial experiment queue
 
-Experiment IDs describe the planned comparisons. E001 is completed; other
-entries remain planned. Fix exact configs and checkpoint sources
+Experiment IDs describe planned comparisons. E001 and E009 are completed;
+E002–E008 remain planned. Fix exact configs and checkpoint sources
 before running. Keep the baseline, architecture, and preprocessing comparisons
 separate where possible.
 
@@ -87,3 +88,6 @@ record the exact training data and identifier of every pretrained checkpoint.
 E009 is executed before encoder/preprocessing changes as an inexpensive diagnostic.
 See [the predeclared suite note](notes/E009-regularization-v1.md) for its fixed grid
 and selection rule.
+
+E009 outcome: no candidate exceeded E001; retain the baseline and proceed to
+validation-error review and controlled context experiments.

@@ -211,7 +211,13 @@ This fits four L2 linear classifiers on the same frozen features and saves each
 as a full scene checkpoint under `outputs/E009-regularization-v1/`. It compares
 validation accuracy, log loss, and corrected/regressed examples with E001.
 The test set is not used. The [suite note](experiments/notes/E009-regularization-v1.md)
-records the hypothesis, settings, and limitations. Suite IDs cannot be reused;
+records the hypothesis, settings, and limitations.
+
+**Measured E009 result:** all four fits converged; none exceeded E001. Best
+within the suite was C=0.1 at 77.58%, so the 77.77% baseline remains our reference.
+See [the comparison](experiments/metrics/E009-regularization-v1/comparison.csv).
+
+Suite IDs cannot be reused;
 copy the config and prepare a new note/ID for an intentional repeat.
 
 ## 6. Save and share work with Git
@@ -313,5 +319,5 @@ day and up to two selected final submissions.
 OpenAI Codex assisted with repository ignore rules, environment setup, the
 competition download and validation utilities, shared split generation, and
 setup documentation, decision records, experiment planning, and baseline
-training/evaluation/inference code and checks. Team members should
+training/evaluation/inference code and checks, and regularization experiments. Team members should
 review and understand the code and update this disclosure as work continues.
