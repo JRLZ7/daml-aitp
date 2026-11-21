@@ -9,3 +9,5 @@ PyYAML
 tqdm
 jupyter
 ipykernel
+
+kagglehub
