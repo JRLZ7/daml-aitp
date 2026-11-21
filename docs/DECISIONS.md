@@ -304,3 +304,20 @@ append a dated update when a choice changes.
   outputs despite the existing source-only convention. Preserve local copies and
   clear only outputs/execution counts; retain all source cells and result CSVs.
   Do not rerun those fine-tuning experiments as part of the preprocessing task.
+
+## 2026-11-21 outcome update — D013 / E011 preprocessing
+
+- Center control reproduced all E001 predictions, 30 history rows, and 320 model
+  tensors exactly: 829/1,066 (77.7674%), epoch 30, loss 0.797219.
+- Whole-image padding reached 823/1,066 (77.2045%), epoch 29, loss 0.816414.
+  It corrected 57 baseline errors but regressed on 63; retain the center reference.
+- Interpretation: this one padded 224-pixel policy found no measured improvement.
+  The six-image difference is small; descriptive paired uncertainty spans zero.
+  Context retention, reduced object scale, and padding are intertwined mechanisms.
+  Do not conclude that all context-aware preprocessing is ineffective.
+- Verification: both encoders unchanged, padded reload reproduces every validation
+  label, explicit transform serialization works, and legacy checkpoints retain
+  their original transform. Sixteen tests pass. See E011 notes and compact metrics.
+- No new fine-tuning, test inference, leaderboard submission, or post-hoc grid
+  expansion. Those broader tasks remain future work. Existing Spencer source
+  cells/results were preserved; only generated notebook outputs were cleared.

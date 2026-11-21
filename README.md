@@ -263,6 +263,10 @@ python -m src.train --config configs/letterbox.yaml --run-id E011-letterbox-v1 -
 Run IDs are reserved/immutable; create a fresh note and ID for another rerun.
 See [the control note](experiments/notes/E011-center-control-v1.md) and
 [the whole-image note](experiments/notes/E011-letterbox-v1.md) for exact settings.
+**Measured:** the center control reproduced 77.77% (829/1,066); padding reached
+77.20% (823/1,066). Keep center cropping as the reference. See
+[the comparison](experiments/metrics/E011-preprocessing/comparison.csv).
+
 New checkpoints store preprocessing explicitly; existing checkpoints retain
 ImageNet V2 center cropping. The same evaluate/predict commands load either policy.
 
