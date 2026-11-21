@@ -1,0 +1,22 @@
+{
+  "classes": 67,
+  "config_sha256": "8ba233dbc90237ac0739c844415e12a5184d630a24e0fa5adb1e08b1a0a9e57a",
+  "images_verified_and_decoded": 6667,
+  "manifest_sha256": {
+    "classes": "4365d388c4e58d2b5c7a30ef202505f96bac0f0dc85ec3427afca7e6aeef2435",
+    "sample_submission": "80947e74df625474d9fabf95b0ba909d4603462b9dc85438b2daad86fdf4cdac",
+    "test": "63a13e8496614b5467bf2b1602ab9fbc4f8f0af088d9584faf303a2abd2bd5ee",
+    "train": "e8e744cccc840ecc1bb1444c29b2d006e9a165e321e384d0e35656a1bc6507be"
+  },
+  "seed": 42,
+  "sklearn_version": "1.9.1",
+  "split_method": "Sort training IDs; sklearn train_test_split with label stratification",
+  "split_sha256": {
+    "train_ids.csv": "c6dcdcb8ba8f26a30b44f5e15bfc912cf6b66a2e1e123cac9bb7fb8fceb24397",
+    "val_ids.csv": "bc36578c7ee062187e8aec786f7085c918b4085a18d9da7826496755a0acdb7a"
+  },
+  "test_rows": 1340,
+  "train_rows": 4261,
+  "validation_fraction": 0.2,
+  "validation_rows": 1066
+}

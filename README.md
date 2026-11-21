@@ -105,10 +105,18 @@ custom download locations, see [data/README.md](data/README.md).
 Run this after arranging the files above:
 
 ```bash
-python -c "from pathlib import Path; import pandas as pd; p=Path('data/raw'); a=pd.read_csv(p/'train.csv'); b=pd.read_csv(p/'test.csv'); c=pd.read_csv(p/'classes.csv'); s=pd.read_csv(p/'sample_submission.csv'); assert len(a)==5327 and len(b)==1340 and len(c)==67; assert a['label'].nunique()==67; assert a['id'].is_unique and b['id'].is_unique and s['id'].is_unique; assert set(b['id'])==set(s['id']); missing=[v for df in (a,b) for v in df['file_path'] if not (p/'images'/v).is_file()]; assert not missing, f'Missing images: {missing[:5]}'; print('Data files, counts, IDs, and image paths OK')"
+python scripts/prepare_data.py
 ```
 
-The expected counts are **5,327 training images, 1,340 test images, and 67 classes**.
+This checks the CSV schemas, IDs, class labels, image paths, and whether every
+image decodes. It then saves a stratified 80/20 split of the labeled training
+records using seed 42 from `config.yaml`.
+
+The expected data counts are **5,327 training images, 1,340 test images, and 67
+classes**. The split contains **4,261 fitting images and 1,066 validation images**.
+Use the committed assignments in [splits/README.md](splits/README.md) for all
+baseline comparisons; do not regenerate a different split for each experiment.
+
 An image's path is `data/raw/images/` plus its CSV `file_path` value.
 
 ## 5. Work on the project
@@ -130,16 +138,16 @@ python -m jupyterlab
 In VS Code, choose the interpreter inside this repository's `.venv` folder for
 Python files and notebooks. Run `deactivate` when you are finished in a terminal.
 
-**Current status:** environment setup and the download script are implemented.
+**Current status:** environment setup, data download, data validation, and the
+shared stratified train/validation split are implemented.
 The files in `src/` are empty scaffolding; training, evaluation, and prediction
 commands will be documented as those components are built.
 
 The next implementation steps are:
 
-1. Validate data and save a fixed stratified train/validation split under `splits/`.
-2. Build the image loader and a reproducible pretrained-model baseline.
-3. Record validation results and compare at least two meaningful changes.
-4. Generate and validate an `id,label` submission CSV.
+1. Build the image loader and a reproducible pretrained-model baseline using `splits/`.
+2. Record validation results and compare at least two meaningful changes.
+3. Generate and validate an `id,label` submission CSV.
 
 ## 6. Save and share work with Git
 
@@ -180,7 +188,8 @@ do not remove files that are already tracked.
 | --- | --- |
 | `config.yaml` | Starting settings; the future training code must load them |
 | `data/` | Download instructions and ignored local competition files |
-| `scripts/` | Data download and setup utilities |
+| `scripts/` | Data download, validation, and split utilities |
+| `splits/` | Shared fitting/validation IDs, class counts, and dataset hashes |
 | `notebooks/` | Exploration and experiment notebooks |
 | `src/` | Training and inference code scaffolding |
 | `experiments/` | Validation results and experiment comparisons |
@@ -222,5 +231,6 @@ day and up to two selected final submissions.
 ## AI assistance
 
 OpenAI Codex assisted with repository ignore rules, environment setup, the
-competition download utility, and setup documentation. Team members should
+competition download and validation utilities, shared split generation, and
+setup documentation. Team members should
 review and understand the code and update this disclosure as work continues.
