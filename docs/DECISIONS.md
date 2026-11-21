@@ -124,3 +124,32 @@ append a dated update when a choice changes.
   run seeds, training time, and finalist confirmation.
 - Tradeoff: fewer architectures are explored. No method guarantees competition rank.
 - Revisit if: new evidence identifies a stronger failure mode worth investigating.
+
+## D009 — E001 frozen-feature training recipe
+
+- Date: 2026-11-21. Status: selected for implementation; E001-seed42-v1 pending.
+- Choice: explicit `ResNet50_Weights.IMAGENET1K_V2` from ImageNet-1K. Use its
+  deterministic resize-232/center-crop-224 normalization for fitting and validation.
+  Extract frozen 2048-dimensional features once, keeping all encoder layers and
+  BatchNorm in evaluation mode; fit a linear 67-class head on CPU.
+- Why: a small, inexpensive run isolates how useful pretrained features are and
+  provides cached features for later head-only comparisons. No random augmentation
+  means one cached feature vector represents exactly one specified image view.
+- Head recipe: 30 epochs, AdamW, learning rate 0.001, weight decay 0.0001,
+  batch size 128, cross-entropy, seed 42. Select best validation accuracy and keep
+  the earliest epoch on ties. These are initial settings, not tuned optima.
+- Alternatives: image augmentation per epoch, fully fine-tuned encoder, sklearn
+  logistic regression, or an expensive head hyperparameter search immediately.
+- Tradeoff: deterministic center crops can discard room edges; caching prevents
+  fresh augmentation, and a simple optimization recipe may leave head performance
+  untapped. CPU head training and accelerator feature extraction can yield small
+  numerical differences across hardware. Save actual versions/device and predictions.
+- Evidence needed: unchanged encoder tensors, validation metrics and probabilities,
+  learning curves, source checksum, and a checkpoint reload evaluation.
+- Config: `configs/baseline.yaml` is authoritative for E001. Root `config.yaml`
+  remains the split-preparation config; its old model/training fields are unused
+  scaffolding, not baseline settings. Avoid regenerating split metadata to change
+  model hyperparameters.
+- Source: [official ResNet-50 weights and transforms](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet50.html).
+- Revisit after: baseline errors/curves identify optimization, context, or encoder
+  limitations. Record measured outcomes in `experiments/notes/E001-seed42-v1.md`.

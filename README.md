@@ -138,16 +138,55 @@ python -m jupyterlab
 In VS Code, choose the interpreter inside this repository's `.venv` folder for
 Python files and notebooks. Run `deactivate` when you are finished in a terminal.
 
-**Current status:** environment setup, data download, data validation, and the
-shared stratified train/validation split are implemented.
-The files in `src/` are empty scaffolding; training, evaluation, and prediction
-commands will be documented as those components are built.
+## Train the frozen ResNet-50 baseline
 
-The next implementation steps are:
+Use the committed shared split. From the repository root:
 
-1. Build the image loader and a reproducible pretrained-model baseline using `splits/`.
-2. Record validation results and compare at least two meaningful changes.
-3. Generate and validate an `id,label` submission CSV.
+```bash
+python -m unittest discover -s tests -v
+python -m src.train --config configs/baseline.yaml --run-id E001-seed42-v1
+```
+
+The first run downloads the official ImageNet-1K ResNet-50 V2 weights. It extracts
+fixed features once, then trains a linear classifier for 30 epochs. The encoder
+stays frozen. See the [recipe decision](docs/DECISIONS.md#d009--e001-frozen-feature-training-recipe)
+and [run note](experiments/notes/E001-seed42-v1.md) for rationale and limitations.
+
+`configs/baseline.yaml` controls model training. Root `config.yaml` is used for
+split preparation; its original model/training fields are unused scaffolding.
+The trainer records the resolved config, code commit, environment, checkpoint
+source/checksums, learning curves, validation predictions, and per-class results
+in ignored `outputs/E001-seed42-v1/`, and appends a row to `experiments/results.csv`.
+The full model is saved as `outputs/E001-seed42-v1/best.pt`; no external pretrained
+weights download is needed when reloading it for inference.
+
+Run IDs and output directories cannot be reused. For a new experiment, prepare
+`experiments/notes/YOUR_RUN_ID.md`, choose a new run ID, and record what changed.
+Use `--device cpu`, `--device mps`, or `--device cuda` to override automatic device
+selection. Changing hardware may cause numerical differences.
+
+To re-evaluate the saved baseline on its recorded validation set:
+
+```bash
+python -m src.evaluate --checkpoint outputs/E001-seed42-v1/best.pt --output-dir outputs/E001-seed42-v1-recheck
+```
+
+The recheck directory must not already exist. Compare its `val_predictions.csv`
+with the original run's predictions. Do not treat re-evaluating the same checkpoint
+on the same split as a new model-selection experiment.
+
+When ready to generate a competition CSV (this command does not upload it):
+
+```bash
+python -m src.predict --checkpoint outputs/E001-seed42-v1/best.pt --output submissions/E001-seed42-v1.csv
+```
+
+The predictor preserves sample-submission ID order and uses the class order saved
+with the checkpoint. Test prediction code is available; real test inference is
+separate from the first baseline training/validation run.
+
+Next: inspect validation errors, compare fine-tuning and context/resolution
+changes, and confirm finalists. Fine-tuning is not implemented in this trainer.
 
 ## 6. Save and share work with Git
 
@@ -192,18 +231,21 @@ The [experiment plan](experiments/PLAN.md) describes our questions and prioritie
 Follow [the experiment recording guide](experiments/README.md) before running
 models; save configs, individual validation predictions, timing, and outcomes.
 `experiments/results.csv` is the index of measured runs, including failed runs.
-No model accuracy results have been recorded yet.
+See `experiments/results.csv` and run notes for measured results; planned runs
+have no score until execution completes.
 
 ## Project layout
 
 | Location | Purpose |
 | --- | --- |
-| `config.yaml` | Starting settings; the future training code must load them |
+| `config.yaml` | Split-preparation settings; old model/training fields are unused |
+| `configs/baseline.yaml` | Explicit frozen ResNet-50 training recipe |
 | `data/` | Download instructions and ignored local competition files |
 | `scripts/` | Data download, validation, and split utilities |
 | `splits/` | Shared fitting/validation IDs, class counts, and dataset hashes |
 | `notebooks/` | Exploration and experiment notebooks |
-| `src/` | Training and inference code scaffolding |
+| `src/` | Image loader, frozen baseline trainer, evaluation, and prediction |
+| `tests/` | Data isolation, mapping, and frozen-encoder checks |
 | `docs/DECISIONS.md` | Important choices, rationale, evidence, and tradeoffs |
 | `experiments/` | Experiment plan, run records, and validation comparisons |
 | `checkpoints/` | Ignored trained weights |
@@ -245,5 +287,6 @@ day and up to two selected final submissions.
 
 OpenAI Codex assisted with repository ignore rules, environment setup, the
 competition download and validation utilities, shared split generation, and
-setup documentation, decision records, and experiment planning. Team members should
+setup documentation, decision records, experiment planning, and baseline
+training/evaluation/inference code and checks. Team members should
 review and understand the code and update this disclosure as work continues.
