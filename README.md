@@ -249,6 +249,23 @@ separate from the first baseline training/validation run.
 Next: inspect validation errors, compare fine-tuning and context/resolution
 changes, and confirm finalists. Fine-tuning is not implemented in this trainer.
 
+## Compare center cropping with whole-image padding
+
+E011 keeps ResNet-50 frozen and repeats the E001 head recipe. It compares the
+original center crop with aspect-ratio-preserving resize and mean-color padding.
+These are preprocessing experiments; new ResNet-50 fine-tuning is deferred.
+
+```bash
+python -m src.train --config configs/center-control.yaml --run-id E011-center-control-v1 --owner "YOUR NAME"
+python -m src.train --config configs/letterbox.yaml --run-id E011-letterbox-v1 --owner "YOUR NAME"
+```
+
+Run IDs are reserved/immutable; create a fresh note and ID for another rerun.
+See [the control note](experiments/notes/E011-center-control-v1.md) and
+[the whole-image note](experiments/notes/E011-letterbox-v1.md) for exact settings.
+New checkpoints store preprocessing explicitly; existing checkpoints retain
+ImageNet V2 center cropping. The same evaluate/predict commands load either policy.
+
 ## Run the regularization experiment
 
 After the E001 feature cache and checkpoint exist locally:

@@ -274,3 +274,33 @@ append a dated update when a choice changes.
 - Existing split/neural code/config artifacts are unchanged. Keep the ResNet
   baseline as strongest recorded model and use the common interfaces for future
   independent task branches. See the integration review and shared workflow.
+
+## D013 — Center-crop control versus whole-room letterbox preprocessing
+
+- Date: 2026-11-21. Status: predeclared for E011; fine-tuning is deferred.
+- Compare a rerun of E001 center-crop preprocessing against longest-edge-224 resize
+  plus centered padding (RGB 124,116,104). Use PIL bilinear, Python-round dimensions
+  (minimum 1), floor left/top padding offsets, and the same ImageNet normalization.
+- Keep encoder, split, classes, initialization, head optimizer, learning rate,
+  weight decay, batch sizes, 30 epochs, and selection/tie rule identical to E001.
+  Use new image features; no augmentation or feature normalization is added.
+- Why: test whether the whole-room input policy improves over the center crop.
+  Preserving context also changes object scale and adds borders, so this experiment
+  cannot isolate a single visual mechanism. Padding can hurt as well as help.
+- Evidence: fixed validation-error review, measured crop fractions, paired error
+  changes, validation loss/accuracy, encoder equality, and checkpoint reloads.
+  The center control must reproduce the old pipeline before interpreting treatment.
+- Store explicit preprocessing in new checkpoints and caches. Old checkpoints
+  keep their original transforms. Reject unsupported/mismatched specifications;
+  evaluation and submission inference must never silently use a different policy.
+- Alternatives: stretch images, use multiple crops, increase resolution, or fine-tune.
+  Those are separate future experiments, not combined into this comparison.
+- Latest main already includes Spencer's separate ResNet-18 experiments. Preserve
+  their method and metrics; they are not new work authorized by this E011 task.
+- Revisit after the fixed two-run result. Small selected validation gains require
+  confirmation; no test inference, Kaggle submission, or further grid tuning here.
+
+- Repository hygiene during this task: newly merged notebooks 03/04 had generated
+  outputs despite the existing source-only convention. Preserve local copies and
+  clear only outputs/execution counts; retain all source cells and result CSVs.
+  Do not rerun those fine-tuning experiments as part of the preprocessing task.

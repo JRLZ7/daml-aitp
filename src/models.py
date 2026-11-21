@@ -4,6 +4,8 @@ import torch
 from torch import nn
 from torchvision.models import ResNet50_Weights, resnet50
 
+from .preprocessing import preprocessing_from_checkpoint
+
 WEIGHT_NAME = 'ResNet50_Weights.IMAGENET1K_V2'
 
 
@@ -35,5 +37,5 @@ def load_checkpoint(path, device):
     model = SceneClassifier(len(classes), pretrained=False)
     model.load_state_dict(checkpoint['state_dict'])
     model.to(device).eval()
-    transform = baseline_weights(checkpoint['pretrained_weights']).transforms()
+    transform = preprocessing_from_checkpoint(checkpoint, baseline_weights(checkpoint['pretrained_weights']))
     return model, transform, checkpoint
