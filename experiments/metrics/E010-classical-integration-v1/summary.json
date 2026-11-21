@@ -1,0 +1,38 @@
+{
+  "checkpoint_reload_predictions_match": true,
+  "checkpoint_sha256": {
+    "most_frequent": "4f38aa9965037f2213c32780f47803b889227fdc39ac9379f159b6aa5eb1d382",
+    "rgb_hist_linear_svm": "9d92e67942c107cb17d82f248753ebe4aa585c71ca1a668aafb8a61edf5f6885"
+  },
+  "code_commit": "cd2ce318f8d5e271d4007c6eda779ba9bb21b186",
+  "dirty_worktree": false,
+  "execution_owner": "Codex (AI-assisted integration execution)",
+  "feature_dimensions": 816,
+  "feature_seconds": 21.169518666923977,
+  "fit_seconds": 59.09275837498717,
+  "metrics": [
+    {
+      "accuracy": 0.0150093808630394,
+      "correct": 16,
+      "macro_f1": 0.00044141584131100503,
+      "model": "most_frequent",
+      "val_examples": 1066
+    },
+    {
+      "accuracy": 0.08348968105065666,
+      "correct": 89,
+      "macro_f1": 0.0713337776751019,
+      "model": "rgb_hist_linear_svm",
+      "val_examples": 1066
+    }
+  ],
+  "run_id": "E010-classical-integration-v1",
+  "source_method_author": "Spencer Kolodny",
+  "source_method_commit": "859926a83d2b17bed0641fb9b5560038671a0a18",
+  "split_sha256": {
+    "train_ids.csv": "c6dcdcb8ba8f26a30b44f5e15bfc912cf6b66a2e1e123cac9bb7fb8fceb24397",
+    "val_ids.csv": "bc36578c7ee062187e8aec786f7085c918b4085a18d9da7826496755a0acdb7a"
+  },
+  "total_minutes": 1.3382568291660089,
+  "warnings": []
+}

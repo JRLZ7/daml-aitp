@@ -1,0 +1,28 @@
+{
+  "data": {
+    "batch_size": 32,
+    "directory": "data/raw",
+    "num_workers": 0,
+    "split_directory": "splits"
+  },
+  "model": {
+    "architecture": "resnet50",
+    "freeze_encoder": true,
+    "preprocessing": "pretrained_weights_transforms",
+    "pretrained_weights": "ResNet50_Weights.IMAGENET1K_V2"
+  },
+  "project": {
+    "seed": 42
+  },
+  "training": {
+    "cpu_threads": 4,
+    "device": "auto",
+    "epochs": 30,
+    "head_batch_size": 128,
+    "learning_rate": 0.001,
+    "loss": "cross_entropy",
+    "optimizer": "AdamW",
+    "selection_metric": "validation_accuracy",
+    "weight_decay": 0.0001
+  }
+}

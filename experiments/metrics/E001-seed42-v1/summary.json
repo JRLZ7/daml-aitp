@@ -1,0 +1,41 @@
+{
+  "artifacts_path": "outputs/E001-seed42-v1",
+  "best_epoch": 30,
+  "checkpoint_sha256": "19e1c80a91397432a868aaf8d280f9dfdf61424ef936c6a51f69e899f02ed707",
+  "code_commit": "91bb9098a15f4dcf04553f5fbf3ffa5136975bb0",
+  "config_path": "configs/baseline.yaml",
+  "correct": 829,
+  "date": "2026-11-21",
+  "dirty_worktree": false,
+  "epochs": 30,
+  "feature_device": "mps",
+  "feature_extraction_seconds": 55.73072012490593,
+  "head_device": "cpu",
+  "head_training_seconds": 0.9382724999450147,
+  "pretrained_sha256": "11ad3fa62ca79e40addfd354a8ec4b7c75143b3038b8d2a807fbc68deab379ca",
+  "pretrained_source": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth",
+  "run_id": "E001-seed42-v1",
+  "source": {
+    "documentation": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet50.html",
+    "identifier": "ResNet50_Weights.IMAGENET1K_V2",
+    "recipe": "https://github.com/pytorch/vision/issues/3995#issuecomment-1013906621",
+    "sha256": "11ad3fa62ca79e40addfd354a8ec4b7c75143b3038b8d2a807fbc68deab379ca",
+    "training_dataset": "ImageNet-1K",
+    "transforms": "ImageClassification(\n    crop_size=[224]\n    resize_size=[232]\n    mean=[0.485, 0.456, 0.406]\n    std=[0.229, 0.224, 0.225]\n    interpolation=InterpolationMode.BILINEAR\n)",
+    "url": "https://download.pytorch.org/models/resnet50-11ad3fa6.pth"
+  },
+  "split_metadata_path": "splits/metadata.json",
+  "train_minutes": 1.0520146548670406,
+  "val_accuracy": 0.7776735459662288,
+  "val_examples": 1066,
+  "verification": {
+    "all_reloaded_predictions_match": true,
+    "checkpoint_hash_verified": true,
+    "correct": 829,
+    "encoder_tensors_identical_to_imagenet_checkpoint": 318,
+    "max_probability_difference_after_reload": 1.0000000000287557e-06,
+    "recheck_device": "mps",
+    "val_examples": 1066,
+    "validation_ids_and_labels_verified": true
+  }
+}

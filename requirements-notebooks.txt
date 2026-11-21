@@ -1,0 +1,5 @@
+# Optional interactive/verification tools; core CLI workflow uses requirements.txt.
+-r requirements.txt
+jupyterlab
+ipykernel
+nbclient

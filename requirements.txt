@@ -7,5 +7,6 @@ matplotlib
 Pillow
 PyYAML
 tqdm
-jupyter
-ipykernel
+kagglehub
+threadpoolctl
+joblib
