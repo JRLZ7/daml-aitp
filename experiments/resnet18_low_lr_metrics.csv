@@ -1,0 +1,2 @@
+model,accuracy,macro_f1,seed,train_images,val_images,classes,split_sha256,learning_rate,epochs_run,selected_epoch,source_checkpoint_sha256
+resnet18_low_lr,0.6819887429643527,0.6800690429750933,42,4261,1066,67,8ebb7c00c22351133647eaba1f2b0d96098da7eaef785d4ad9884d6e0e9feb1c,1e-05,5,5,c620e3413b990fe21d93587b7b0eaa8dadbadde886f4798c21c080447eb39d66

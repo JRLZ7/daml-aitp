@@ -1,0 +1,7 @@
+{
+  "status": "complete",
+  "selected_epoch": 5,
+  "accuracy": 0.6819887429643527,
+  "macro_f1": 0.6800690429750933,
+  "epochs_run": 5
+}
