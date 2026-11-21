@@ -1,29 +1,45 @@
-# Python
+# Python and environments
 __pycache__/
-*.pyc
-
-# Virtual environments
+*.py[cod]
 .venv/
 venv/
+.pytest_cache/
+.ruff_cache/
 
-# Dataset files
-data/*
-
-# Model checkpoints
-checkpoints/*
-!checkpoints/.gitkeep
-
-# Submission files
-submissions/*
-!submissions/.gitkeep
-
-# Local settings
+# Credentials and local configuration
 .env
-.vscode/
+.env.*
+!.env.example
+kaggle.json
+.kaggle/
 
-# Notebook checkpoints
+# Downloaded competition data
+/data/*
+!/data/README.md
+!/data/.gitkeep
+
+# Model weights and generated artifacts
+/checkpoints/*
+!/checkpoints/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+/outputs/
+/runs/
+/wandb/
+
+# Intermediate predictions; retain selected final submissions
+/submissions/*
+!/submissions/.gitkeep
+!/submissions/final/
+!/submissions/final/**
+
+# Notebook temporary files
 .ipynb_checkpoints/
 
-# OS files
+# Local editor and OS files
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
